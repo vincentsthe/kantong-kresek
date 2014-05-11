@@ -1,0 +1,27 @@
+/* -----------------------------------------------------------------------
+
+
+ Blueprint CSS Framework 1.0.1
+ http://blueprintcss.org
+
+   * Copyright (c) 2007-Present. See LICENSE for more info.
+   * See README for instructions on how to use Blueprint.
+   * For credits and origins, see AUTHORS.
+   * This is a compressed file. See the sources in the 'src' directory.
+
+----------------------------------------------------------------------- */
+
+/* print.css */
+
+@page {
+	size: 8.27in 11.69in;
+	margin: .5in .5in .5in .5in;
+}
+
+body * {
+	visibility: hidden;
+}
+
+.print-section, .print-section * {
+	visibility: visible;
+}
