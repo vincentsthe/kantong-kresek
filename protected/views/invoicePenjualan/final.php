@@ -81,7 +81,7 @@ $hargaTotal = 0;
 
 
 <?php echo CHtml::link('<span class="glyphicon glyphicon-chevron-left"></span>Informasi', array('invoicePenjualan/pembayaran'), array('class'=>'btn btn-warning pull-left')); ?>
-<?php echo CHtml::link('Terbitkan<span class="glyphicon glyphicon-chevron-right"></span>', array('invoicePenjualan/print'), array('class'=>'btn btn-warning pull-right')); ?>
+<?php echo CHtml::link('Terbitkan<span class="glyphicon glyphicon-chevron-right"></span>', array('invoicePenjualan/doCreate'), array('class'=>'btn btn-warning pull-right')); ?>
 
 <br><br><br>
 
