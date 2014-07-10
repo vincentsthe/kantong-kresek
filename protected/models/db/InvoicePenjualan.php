@@ -19,6 +19,7 @@
  * @property integer $down_payment
  * @property integer $biaya_pengiriman
  * @property integer $location
+ * @property integer $batal
  *
  * The followings are the available model relations:
  * @property Cabang $location0
@@ -147,7 +148,7 @@ class InvoicePenjualan extends CActiveRecord
 		
 		$listItem = $this->penjualans;
 		foreach($listItem as $item) {
-			$totalPrice += $item->harga * $item->quantity;
+			$totalPrice += $item->harga_terjual * $item->quantity;
 		}
 		
 		return $totalPrice;
@@ -156,6 +157,7 @@ class InvoicePenjualan extends CActiveRecord
 	public function beforeSave() {
 		if($this->isNewRecord) {
 			$this->waktu_penerbitan = time();
+			$this->batal = 0;
 			$this->nomor = Nomor::currentInvoicePenjualanNumber();
 			Nomor::incrementInvoicePenjualanNumber();
 		}

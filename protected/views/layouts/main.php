@@ -36,12 +36,14 @@
 	<div class="navbar navbar-inverse" style="padding:0px;margin-bottom: 0px;">
 		<div class="container navbar-menu">
 			<ul class="nav navbar-nav">
-				<li><?php echo CHtml::link("Penjualan", array('invoicePenjualan/create'));?></li>
+				<li><?php echo CHtml::link("Penjualan", array('invoicePenjualan/createNew'));?></li>
 				<?php if(!Yii::app()->user->isGuest && Yii::app()->user->roles == 'admin'): ?>
 					<li><?php echo CHtml::link("Pembelian", array('invoicePembelian/create'));?></li>
 					<li><?php echo CHtml::link("User", array('user/index'));?></li>
 					<li><?php echo CHtml::link("Inventarisasi", array('inventory/index'));?></li>
-					
+					<li><?php echo CHtml::link("Tunggakan", array('tunggakan/index'));?></li>
+					<li><?php echo CHtml::link("Absen", array('absen/list'));?></li>
+					<li><?php echo CHtml::link("Administrasi", array('accounting/index'));?></li>
 				<?php endif; ?>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

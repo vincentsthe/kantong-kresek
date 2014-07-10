@@ -18,6 +18,12 @@
 )); ?>
 
 	<?php echo $form->errorSummary($model); ?>
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'harga'); ?>
+		<?php echo $form->textField($model,'harga', array('class'=>'form-control')); ?>
+		<?php echo $form->error($model,'harga'); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'harga_minimum'); ?>

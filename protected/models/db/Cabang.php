@@ -97,7 +97,7 @@ class Cabang extends CActiveRecord
 	}
 	
 	public static function findAllLocation($empty = false) {
-		$allCabang = Self::model()->findAll();
+		$allCabang = self::model()->findAll();
 		
 		$returnArray = array();
 		

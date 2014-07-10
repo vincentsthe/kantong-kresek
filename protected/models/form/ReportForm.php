@@ -6,6 +6,8 @@ class ReportForm extends CFormModel {
 	 */
 	public $cabang;
 	
+	public $supplier;
+	
 	public $startTime;
 	
 	public $endTime;
@@ -14,6 +16,7 @@ class ReportForm extends CFormModel {
 		return array(
 			array('startTime, endTime', 'required'),
 			array('cabang', 'length', 'max'=>10),
+			array('supplier', 'length', 'max'=>128),
 		);
 	}
 }

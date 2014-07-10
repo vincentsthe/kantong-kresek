@@ -72,12 +72,6 @@
 				<?php echo $form->error($model,'telpon_terkirim'); ?>
 			</div>
 		</div>
-		
-		<br>
-		<div class="col-md-4">
-			<?php echo $form->labelEx($model,'tipe_pembeli'); ?>
-			<?php echo $form->dropDownList($model, 'tipe_pembeli', array('1'=>'Pembeli Biasa', '2'=>'Pembeli Khusus'), array('class'=>'form-control')); ?>
-		</div>
 	</div>
 	
 	<br><br>

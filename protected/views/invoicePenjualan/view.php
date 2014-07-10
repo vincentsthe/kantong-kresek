@@ -6,10 +6,16 @@ Yii::import('ext.Utilities');
 $listPenjualan = $invoice->penjualans;
 
 $hargaTotal = 0;
+$diskonTotal = 0;
 ?>
 
 <h1>Invoice Penjualan #<?php echo $invoice->nomor; ?></h1>
 <hr>
+
+<?php if($invoice->batal == 1): ?>
+	<h2 style="color:red">DIBATALKAN</h2>
+<?php endif; ?>
+
 <?php if(Yii::app()->user->hasFlash('error')): ?>
 	<div class="alert alert-danger">
 		<?php echo Yii::app()->user->getFlash('error'); ?>
@@ -55,26 +61,31 @@ $hargaTotal = 0;
 			<td class="text-right"><?php echo Utilities::currency($item->harga * $item->quantity); ?></td>
 		</tr>
 		<?php $hargaTotal += $item->harga * $item->quantity?>
+		<?php $diskonTotal += ($item->harga - $item->harga_terjual) * $item->quantity?>
 	<?php endforeach;?>
 </table>
 
 <div class="row">
-	<div class="col-xs-7">
+	<div class="col-md-7">
 		<h4>Komentar</h4>
 		<?php echo $invoice->comment_external; ?>
 	</div>
-	<div class="col-xs-3">
+	<div class="col-md-3">
 		<h5>Harga Total</h5>
 		<h5>Biaya Pengiriman</h5>
+		<h5>Jumlah</h5>
+		<h5>Diskon</h5>
 		<h5><b>Total</b></h5><br>
 		<h5>Pembayaran</h5>
 		<h5><b>Down Payment</b></h5>
 	</div>
-	<div class="col-xs-2">
+	<div class="col-md-2">
 		<h5><?php echo Utilities::currency($hargaTotal); ?></h5>
 		<h5><?php echo Utilities::currency($invoice->biaya_pengiriman); ?></h5>
-		<h5><b><?php echo Utilities::currency($hargaTotal + $invoice->biaya_pengiriman); ?></b></h5><br>
-		<h5 class="tes"><?php echo $invoice->jenis_pembayaran?></h5>
+		<h5><?php echo Utilities::currency($hargaTotal); ?></h5>
+		<h5><?php echo Utilities::currency($diskonTotal); ?></h5>
+		<h5><b><?php echo Utilities::currency($hargaTotal - $diskonTotal); ?></b></h5><br>
+		<h5><?php echo $invoice->jenis_pembayaran?></h5>
 		<h5><b><?php echo Utilities::currency($invoice->down_payment); ?></b></h5>
 	</div>
 </div>
@@ -82,4 +93,6 @@ $hargaTotal = 0;
 <div class="text-center">
 	<?php echo CHtml::link('Print', array('invoicePenjualan/print', 'id'=>$invoice->id), array('class'=>'btn btn-warning', 'target'=>'_blank')); ?>
 </div>
+<br><br>
+<?php echo CHtml::link('Batalkan', array('invoicePenjualan/cancel', 'id'=>$invoice->id), array('class'=>'btn btn-danger', 'onclick'=>'return confirm("Batalkan transaksi ini.");')); ?>
 <br><br><br>

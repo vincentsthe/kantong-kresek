@@ -9,8 +9,10 @@
  * @property integer $jumlah_barang
  * @property integer $lokasi
  * @property integer $invoice_id
+ * @property integer $harga
  * @property integer $harga_minimum
  * @property integer $harga_minimum_khusus
+ * @property string  $serial_number
  *
  * The followings are the available model relations:
  * @property Cabang $lokasi0
@@ -101,6 +103,38 @@ class Inventory extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	public static function tambah($barang) {
+		$criteria = new CDbCriteria;
+		$criteria->condition = "nama_barang=:nama_barang AND invoice_id=:invoice_id AND lokasi=:lokasi AND serial_number=:serial_number";
+		$criteria->params = array(
+									":nama_barang"=>$barang->nama_barang,
+									":invoice_id"=>$barang->invoice_id,
+									":lokasi"=>$barang->lokasi,
+									":serial_number"=>$barang->serial_number,
+							);
+		
+		$initialInventory = self::model()->find($criteria);
+		
+		if ($initialInventory == null) {
+			$inventory = new Inventory;
+			$inventory->nama_barang = $barang->nama_barang;
+			$inventory->jumlah_barang = $barang->jumlah_barang;
+			$inventory->invoice_id = $barang->invoice_id;
+			$inventory->lokasi = $barang->lokasi;
+			$inventory->harga = $barang->harga;
+			$inventory->harga_minimum = $barang->harga_minimum;
+			$inventory->harga_minimum_khusus = $barang->harga_minimum_khusus;
+			$inventory->serial_number = $barang->serial_number;
+			$inventory->save();
+		} else {
+			$initialInventory->jumlah_barang = $initialInventory->jumlah_barang + $barang->jumlah_barang;
+			$initialInventory->harga = $barang->harga;
+			$initialInventory->harga_minimum = $barang->harga_minimum;
+			$initialInventory->harga_minimum_khusus = $barang->harga_minimum_khusus;
+			$initialInventory->save();
+		}
 	}
 
 	/**

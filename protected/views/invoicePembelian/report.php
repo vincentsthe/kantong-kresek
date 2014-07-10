@@ -21,6 +21,14 @@ Yii::app()->getClientScript()->registerCssFile(Yii::app()->baseUrl . '/css/jquer
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
 )); ?>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h5><?php echo $form->labelEx($reportForm,'supplier'); ?></h5>
+			<?php echo $form->textField($reportForm,'supplier',array('class'=>'form-control')); ?>
+			<?php echo $form->error($reportForm,'supplier'); ?>
+		</div>
+	</div>
 	
 	<div class="row">
 		<div class="col-md-6">

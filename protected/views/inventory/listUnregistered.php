@@ -44,7 +44,8 @@ Yii::import('ext.Utilities');
 				'name'=>'',
 				'type'=>'raw',
 				'value'=>function($data) {
-					return CHtml::link('<span class="glyphicon glyphicon-edit"></span>', array('inventory/update', 'id'=>$data->id));
+					return CHtml::link('<span class="glyphicon glyphicon-search"></span>', array('inventory/view', 'id'=>$data->id)) . " " .
+						   CHtml::link('<span class="glyphicon glyphicon-edit"></span>', array('inventory/assign', 'id'=>$data->id));
 				},
 			),
 		),

@@ -2775,3 +2775,652 @@ REQUEST_URI=/kantong_kresek/index.php/invoicePembelian/print/3
 in /var/www/kantong_kresek/protected/views/invoicePembelian/print.php (6)
 in /var/www/kantong_kresek/protected/controllers/InvoicePembelianController.php (294)
 in /var/www/kantong_kresek/index.php (15)
+2014/05/16 19:09:08 [error] [exception.CException] exception 'CException' with message 'Property "InvoicePenjualan.invoice_id" is not defined.' in /var/www/html/kantong_kresek/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(145): CComponent->__get('invoice_id')
+#1 /var/www/html/kantong_kresek/protected/models/db/Tunggakan.php(108): CActiveRecord->__get('invoice_id')
+#2 /var/www/html/kantong_kresek/protected/controllers/InvoicePenjualanController.php(432): Tunggakan::createFromInvoice(Object(InvoicePenjualan))
+#3 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): InvoicePenjualanController->actionDoCreate()
+#4 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#11 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('doCreate')
+#13 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('invoicePenjuala...')
+#14 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#16 {main}
+REQUEST_URI=/kantong_kresek/index.php/invoicePenjualan/doCreate
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/invoicePenjualan/final
+---
+2014/05/16 19:19:26 [error] [exception.CException] exception 'CException' with message 'Property "InvoicePembelian.invoice" is not defined.' in /var/www/html/kantong_kresek/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(145): CComponent->__get('invoice')
+#1 /var/www/html/kantong_kresek/framework/base/CComponent.php(612) : eval()'d code(1): CActiveRecord->__get('invoice')
+#2 /var/www/html/kantong_kresek/framework/base/CComponent.php(612): eval()
+#3 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CDataColumn.php(137): CComponent->evaluateExpression('CHtml::link($da...', Array)
+#4 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridColumn.php(151): CDataColumn->renderDataCellContent(0, Object(InvoicePembelian))
+#5 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(616): CGridColumn->renderDataCell(0)
+#6 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(572): CGridView->renderTableRow(0)
+#7 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(482): CGridView->renderTableBody()
+#8 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(167): CGridView->renderItems()
+#9 [internal function]: CBaseListView->renderSection(Array)
+#10 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback('/{(\w+)}/', Array, '{items}')
+#11 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(135): CBaseListView->renderContent()
+#12 /var/www/html/kantong_kresek/framework/web/CBaseController.php(173): CBaseListView->run()
+#13 /var/www/html/kantong_kresek/protected/views/tunggakan/index.php(65): CBaseController->widget('zii.widgets.gri...', Array)
+#14 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require('/var/www/html/k...')
+#15 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/k...', Array, true)
+#16 /var/www/html/kantong_kresek/framework/web/CController.php(869): CBaseController->renderFile('/var/www/html/k...', Array, true)
+#17 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#18 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(154): CController->render('index', Array)
+#19 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): TunggakanController->actionIndex()
+#20 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#21 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#22 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#23 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#24 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#25 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#26 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#27 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#28 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('index')
+#29 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('tunggakan/index')
+#30 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#31 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#32 {main}
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/index
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/invoicePenjualan/create
+---
+2014/05/16 19:20:24 [error] [exception.CException] exception 'CException' with message 'Property "InvoicePembelian.invoice" is not defined.' in /var/www/html/kantong_kresek/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(145): CComponent->__get('invoice')
+#1 /var/www/html/kantong_kresek/framework/base/CComponent.php(612) : eval()'d code(1): CActiveRecord->__get('invoice')
+#2 /var/www/html/kantong_kresek/framework/base/CComponent.php(612): eval()
+#3 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CDataColumn.php(137): CComponent->evaluateExpression('CHtml::link($da...', Array)
+#4 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridColumn.php(151): CDataColumn->renderDataCellContent(0, Object(InvoicePembelian))
+#5 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(616): CGridColumn->renderDataCell(0)
+#6 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(572): CGridView->renderTableRow(0)
+#7 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(482): CGridView->renderTableBody()
+#8 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(167): CGridView->renderItems()
+#9 [internal function]: CBaseListView->renderSection(Array)
+#10 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback('/{(\w+)}/', Array, '{items}')
+#11 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(135): CBaseListView->renderContent()
+#12 /var/www/html/kantong_kresek/framework/web/CBaseController.php(173): CBaseListView->run()
+#13 /var/www/html/kantong_kresek/protected/views/tunggakan/index.php(65): CBaseController->widget('zii.widgets.gri...', Array)
+#14 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require('/var/www/html/k...')
+#15 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/k...', Array, true)
+#16 /var/www/html/kantong_kresek/framework/web/CController.php(869): CBaseController->renderFile('/var/www/html/k...', Array, true)
+#17 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#18 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(154): CController->render('index', Array)
+#19 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): TunggakanController->actionIndex()
+#20 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#21 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#22 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#23 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#24 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#25 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#26 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#27 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#28 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('index')
+#29 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('tunggakan/index')
+#30 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#31 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#32 {main}
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/index
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/invoicePenjualan/create
+---
+2014/05/16 19:20:25 [error] [exception.CException] exception 'CException' with message 'Property "InvoicePembelian.invoice" is not defined.' in /var/www/html/kantong_kresek/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(145): CComponent->__get('invoice')
+#1 /var/www/html/kantong_kresek/framework/base/CComponent.php(612) : eval()'d code(1): CActiveRecord->__get('invoice')
+#2 /var/www/html/kantong_kresek/framework/base/CComponent.php(612): eval()
+#3 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CDataColumn.php(137): CComponent->evaluateExpression('CHtml::link($da...', Array)
+#4 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridColumn.php(151): CDataColumn->renderDataCellContent(0, Object(InvoicePembelian))
+#5 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(616): CGridColumn->renderDataCell(0)
+#6 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(572): CGridView->renderTableRow(0)
+#7 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(482): CGridView->renderTableBody()
+#8 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(167): CGridView->renderItems()
+#9 [internal function]: CBaseListView->renderSection(Array)
+#10 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback('/{(\w+)}/', Array, '{items}')
+#11 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(135): CBaseListView->renderContent()
+#12 /var/www/html/kantong_kresek/framework/web/CBaseController.php(173): CBaseListView->run()
+#13 /var/www/html/kantong_kresek/protected/views/tunggakan/index.php(65): CBaseController->widget('zii.widgets.gri...', Array)
+#14 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require('/var/www/html/k...')
+#15 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/k...', Array, true)
+#16 /var/www/html/kantong_kresek/framework/web/CController.php(869): CBaseController->renderFile('/var/www/html/k...', Array, true)
+#17 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#18 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(154): CController->render('index', Array)
+#19 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): TunggakanController->actionIndex()
+#20 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#21 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#22 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#23 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#24 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#25 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#26 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#27 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#28 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('index')
+#29 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('tunggakan/index')
+#30 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#31 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#32 {main}
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/index
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/invoicePenjualan/create
+---
+2014/05/16 19:21:00 [error] [exception.CException] exception 'CException' with message 'Property "InvoicePembelian.invoice" is not defined.' in /var/www/html/kantong_kresek/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(145): CComponent->__get('invoice')
+#1 /var/www/html/kantong_kresek/framework/base/CComponent.php(612) : eval()'d code(1): CActiveRecord->__get('invoice')
+#2 /var/www/html/kantong_kresek/framework/base/CComponent.php(612): eval()
+#3 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CDataColumn.php(137): CComponent->evaluateExpression('CHtml::link($da...', Array)
+#4 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridColumn.php(151): CDataColumn->renderDataCellContent(0, Object(InvoicePembelian))
+#5 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(616): CGridColumn->renderDataCell(0)
+#6 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(572): CGridView->renderTableRow(0)
+#7 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(482): CGridView->renderTableBody()
+#8 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(167): CGridView->renderItems()
+#9 [internal function]: CBaseListView->renderSection(Array)
+#10 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback('/{(\w+)}/', Array, '{items}')
+#11 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(135): CBaseListView->renderContent()
+#12 /var/www/html/kantong_kresek/framework/web/CBaseController.php(173): CBaseListView->run()
+#13 /var/www/html/kantong_kresek/protected/views/tunggakan/index.php(65): CBaseController->widget('zii.widgets.gri...', Array)
+#14 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require('/var/www/html/k...')
+#15 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/k...', Array, true)
+#16 /var/www/html/kantong_kresek/framework/web/CController.php(869): CBaseController->renderFile('/var/www/html/k...', Array, true)
+#17 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#18 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(141): CController->render('index', Array)
+#19 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): TunggakanController->actionIndex()
+#20 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#21 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#22 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#23 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#24 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#25 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#26 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#27 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#28 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('index')
+#29 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('tunggakan/index')
+#30 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#31 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#32 {main}
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/index
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/invoicePenjualan/create
+---
+2014/05/16 19:21:00 [error] [exception.CException] exception 'CException' with message 'Property "InvoicePembelian.invoice" is not defined.' in /var/www/html/kantong_kresek/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(145): CComponent->__get('invoice')
+#1 /var/www/html/kantong_kresek/framework/base/CComponent.php(612) : eval()'d code(1): CActiveRecord->__get('invoice')
+#2 /var/www/html/kantong_kresek/framework/base/CComponent.php(612): eval()
+#3 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CDataColumn.php(137): CComponent->evaluateExpression('CHtml::link($da...', Array)
+#4 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridColumn.php(151): CDataColumn->renderDataCellContent(0, Object(InvoicePembelian))
+#5 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(616): CGridColumn->renderDataCell(0)
+#6 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(572): CGridView->renderTableRow(0)
+#7 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(482): CGridView->renderTableBody()
+#8 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(167): CGridView->renderItems()
+#9 [internal function]: CBaseListView->renderSection(Array)
+#10 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback('/{(\w+)}/', Array, '{items}')
+#11 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(135): CBaseListView->renderContent()
+#12 /var/www/html/kantong_kresek/framework/web/CBaseController.php(173): CBaseListView->run()
+#13 /var/www/html/kantong_kresek/protected/views/tunggakan/index.php(65): CBaseController->widget('zii.widgets.gri...', Array)
+#14 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require('/var/www/html/k...')
+#15 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/k...', Array, true)
+#16 /var/www/html/kantong_kresek/framework/web/CController.php(869): CBaseController->renderFile('/var/www/html/k...', Array, true)
+#17 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#18 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(141): CController->render('index', Array)
+#19 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): TunggakanController->actionIndex()
+#20 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#21 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#22 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#23 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#24 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#25 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#26 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#27 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#28 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('index')
+#29 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('tunggakan/index')
+#30 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#31 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#32 {main}
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/index
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/invoicePenjualan/create
+---
+2014/05/16 19:38:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "bayar".' in /var/www/html/kantong_kresek/framework/web/CController.php:483
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(270): CController->missingAction('bayar')
+#1 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('bayar')
+#2 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('invoicePembelia...')
+#3 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/kantong_kresek/index.php/invoicePembelian/bayar/1
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/tunggakan/index
+---
+2014/05/16 19:38:32 [error] [php] include(Utilities.php): failed to open stream: No such file or directory (/var/www/html/kantong_kresek/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/html/kantong_kresek/protected/views/tunggakan/bayar.php(38): spl_autoload_call()
+#1 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require()
+#2 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): TunggakanController->renderInternal()
+#3 /var/www/html/kantong_kresek/framework/web/CController.php(869): TunggakanController->renderFile()
+#4 /var/www/html/kantong_kresek/framework/web/CController.php(782): TunggakanController->renderPartial()
+#5 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(147): TunggakanController->render()
+#6 unknown(0): TunggakanController->actionBayar()
+#7 /var/www/html/kantong_kresek/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#8 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#9 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams()
+#10 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): TunggakanController->runAction()
+#11 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#12 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#13 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): TunggakanController->filterAccessControl()
+#14 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#15 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#16 /var/www/html/kantong_kresek/framework/web/CController.php(265): TunggakanController->runActionWithFilters()
+#17 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): TunggakanController->run()
+#18 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#19 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#20 /var/www/html/kantong_kresek/index.php(15): CWebApplication->run()
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/bayar/1
+in /var/www/html/kantong_kresek/protected/views/tunggakan/bayar.php (38)
+in /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php (147)
+in /var/www/html/kantong_kresek/index.php (15)
+2014/05/16 19:38:54 [error] [php] Undefined variable: model (/var/www/html/kantong_kresek/protected/views/tunggakan/bayar.php:56)
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(869): TunggakanController->renderFile()
+#1 /var/www/html/kantong_kresek/framework/web/CController.php(782): TunggakanController->renderPartial()
+#2 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(147): TunggakanController->render()
+#3 unknown(0): TunggakanController->actionBayar()
+#4 /var/www/html/kantong_kresek/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#5 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams()
+#7 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): TunggakanController->runAction()
+#8 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#9 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#10 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): TunggakanController->filterAccessControl()
+#11 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#12 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#13 /var/www/html/kantong_kresek/framework/web/CController.php(265): TunggakanController->runActionWithFilters()
+#14 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): TunggakanController->run()
+#15 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#16 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /var/www/html/kantong_kresek/index.php(15): CWebApplication->run()
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/bayar/1
+in /var/www/html/kantong_kresek/protected/views/tunggakan/bayar.php (56)
+in /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php (147)
+in /var/www/html/kantong_kresek/index.php (15)
+2014/05/16 19:39:02 [error] [exception.CException] exception 'CException' with message 'CActiveForm and its behaviors do not have a method or closure named "getErrors".' in /var/www/html/kantong_kresek/framework/base/CComponent.php:266
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/helpers/CHtml.php(2002): CComponent->__call('getErrors', Array)
+#1 /var/www/html/kantong_kresek/framework/web/helpers/CHtml.php(2002): CActiveForm->getErrors()
+#2 /var/www/html/kantong_kresek/framework/web/widgets/CActiveForm.php(547): CHtml::errorSummary(Object(CActiveForm), NULL, NULL, Array)
+#3 /var/www/html/kantong_kresek/protected/views/tunggakan/bayar.php(56): CActiveForm->errorSummary(Object(CActiveForm))
+#4 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require('/var/www/html/k...')
+#5 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/k...', Array, true)
+#6 /var/www/html/kantong_kresek/framework/web/CController.php(869): CBaseController->renderFile('/var/www/html/k...', Array, true)
+#7 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('bayar', Array, true)
+#8 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(147): CController->render('bayar', Array)
+#9 [internal function]: TunggakanController->actionBayar('1')
+#10 /var/www/html/kantong_kresek/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(TunggakanController), Array)
+#11 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(TunggakanController), Object(ReflectionMethod), Array)
+#12 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#13 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#14 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#15 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#16 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#17 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#18 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#19 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('bayar')
+#21 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('tunggakan/bayar')
+#22 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#23 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#24 {main}
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/bayar/1
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/tunggakan/index
+---
+2014/05/16 19:39:25 [error] [exception.CException] exception 'CException' with message 'PembayaranForm and its behaviors do not have a method or closure named "labelEx".' in /var/www/html/kantong_kresek/framework/base/CComponent.php:266
+Stack trace:
+#0 /var/www/html/kantong_kresek/protected/views/tunggakan/bayar.php(59): CComponent->__call('labelEx', Array)
+#1 /var/www/html/kantong_kresek/protected/views/tunggakan/bayar.php(59): PembayaranForm->labelEx(Object(PembayaranForm), 'jumlah')
+#2 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require('/var/www/html/k...')
+#3 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/k...', Array, true)
+#4 /var/www/html/kantong_kresek/framework/web/CController.php(869): CBaseController->renderFile('/var/www/html/k...', Array, true)
+#5 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('bayar', Array, true)
+#6 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(147): CController->render('bayar', Array)
+#7 [internal function]: TunggakanController->actionBayar('1')
+#8 /var/www/html/kantong_kresek/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(TunggakanController), Array)
+#9 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(TunggakanController), Object(ReflectionMethod), Array)
+#10 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#11 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#12 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#13 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#14 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#15 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#16 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#17 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('bayar')
+#19 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('tunggakan/bayar')
+#20 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#21 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#22 {main}
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/bayar/1
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/tunggakan/index
+---
+2014/05/16 19:39:27 [error] [exception.CException] exception 'CException' with message 'PembayaranForm and its behaviors do not have a method or closure named "labelEx".' in /var/www/html/kantong_kresek/framework/base/CComponent.php:266
+Stack trace:
+#0 /var/www/html/kantong_kresek/protected/views/tunggakan/bayar.php(59): CComponent->__call('labelEx', Array)
+#1 /var/www/html/kantong_kresek/protected/views/tunggakan/bayar.php(59): PembayaranForm->labelEx(Object(PembayaranForm), 'jumlah')
+#2 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require('/var/www/html/k...')
+#3 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/k...', Array, true)
+#4 /var/www/html/kantong_kresek/framework/web/CController.php(869): CBaseController->renderFile('/var/www/html/k...', Array, true)
+#5 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('bayar', Array, true)
+#6 /var/www/html/kantong_kresek/protected/controllers/TunggakanController.php(147): CController->render('bayar', Array)
+#7 [internal function]: TunggakanController->actionBayar('1')
+#8 /var/www/html/kantong_kresek/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(TunggakanController), Array)
+#9 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(TunggakanController), Object(ReflectionMethod), Array)
+#10 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#11 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#12 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#13 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#14 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#15 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#16 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#17 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('bayar')
+#19 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('tunggakan/bayar')
+#20 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#21 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#22 {main}
+REQUEST_URI=/kantong_kresek/index.php/tunggakan/bayar/1
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/tunggakan/index
+---
+2014/05/17 19:57:07 [error] [php] include(Utilities.php): failed to open stream: No such file or directory (/var/www/html/kantong_kresek/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/html/kantong_kresek/protected/controllers/AbsenController.php(131): spl_autoload_call()
+#1 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): AbsenController->actionList()
+#2 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): AbsenController->runAction()
+#4 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): AbsenController->filterAccessControl()
+#7 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#9 /var/www/html/kantong_kresek/framework/web/CController.php(265): AbsenController->runActionWithFilters()
+#10 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): AbsenController->run()
+#11 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /var/www/html/kantong_kresek/index.php(15): CWebApplication->run()
+REQUEST_URI=/kantong_kresek/index.php/absen/list
+in /var/www/html/kantong_kresek/protected/controllers/AbsenController.php (131)
+in /var/www/html/kantong_kresek/index.php (15)
+2014/05/17 20:20:22 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to perform this action.' in /var/www/html/kantong_kresek/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(WebUser), 'You are not aut...')
+#1 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('index')
+#8 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('absen/index')
+#9 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#11 {main}
+REQUEST_URI=/kantong_kresek/index.php/absen/index
+---
+2014/05/17 20:39:40 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'sebastian' in 'where clause'. The SQL statement executed was: SELECT * FROM `user` `t` WHERE username=sebastian LIMIT 1.
+in /var/www/html/kantong_kresek/protected/controllers/AbsenController.php (161)
+in /var/www/html/kantong_kresek/index.php (15)
+2014/05/17 20:39:40 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'sebastian' in 'where clause'. The SQL statement executed was: SELECT * FROM `user` `t` WHERE username=sebastian LIMIT 1' in /var/www/html/kantong_kresek/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/db/CDbCommand.php(415): CDbCommand->queryInternal('fetch', Array, Array)
+#1 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(1351): CDbCommand->queryRow()
+#2 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(1456): CActiveRecord->query(Object(CDbCriteria))
+#3 /var/www/html/kantong_kresek/protected/controllers/AbsenController.php(161): CActiveRecord->find(Object(CDbCriteria))
+#4 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): AbsenController->actionAbsen()
+#5 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#12 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('absen')
+#14 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('absen/absen')
+#15 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#17 {main}
+REQUEST_URI=/kantong_kresek/index.php/absen/absen
+---
+2014/05/17 20:51:30 [error] [php] Undefined variable: TYPE_PULANG (/var/www/html/kantong_kresek/protected/models/db/Absen.php:110)
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): AbsenController->runAction()
+#2 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#3 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#4 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): AbsenController->filterAccessControl()
+#5 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#6 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#7 /var/www/html/kantong_kresek/framework/web/CController.php(265): AbsenController->runActionWithFilters()
+#8 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): AbsenController->run()
+#9 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/html/kantong_kresek/index.php(15): CWebApplication->run()
+REQUEST_URI=/kantong_kresek/index.php/absen/absen
+in /var/www/html/kantong_kresek/protected/models/db/Absen.php (110)
+in /var/www/html/kantong_kresek/protected/controllers/AbsenController.php (166)
+in /var/www/html/kantong_kresek/index.php (15)
+2014/05/17 20:59:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "site".' in /var/www/html/kantong_kresek/framework/web/CController.php:483
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(270): CController->missingAction('site')
+#1 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('site')
+#2 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('absen/site/logi...')
+#3 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/kantong_kresek/index.php/absen/site/login
+---
+2014/05/17 20:59:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "site".' in /var/www/html/kantong_kresek/framework/web/CController.php:483
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(270): CController->missingAction('site')
+#1 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('site')
+#2 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('absen/site/logi...')
+#3 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/kantong_kresek/index.php/absen/site/login
+---
+2014/05/17 21:08:49 [error] [exception.CException] exception 'CException' with message 'Property "Absen.timeStamp" is not defined.' in /var/www/html/kantong_kresek/framework/base/CComponent.php:130
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(145): CComponent->__get('timeStamp')
+#1 /var/www/html/kantong_kresek/framework/base/CComponent.php(612) : eval()'d code(1): CActiveRecord->__get('timeStamp')
+#2 /var/www/html/kantong_kresek/framework/base/CComponent.php(612): eval()
+#3 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CDataColumn.php(137): CComponent->evaluateExpression('Utilities::time...', Array)
+#4 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridColumn.php(151): CDataColumn->renderDataCellContent(0, Object(Absen))
+#5 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(616): CGridColumn->renderDataCell(0)
+#6 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(572): CGridView->renderTableRow(0)
+#7 /var/www/html/kantong_kresek/framework/zii/widgets/grid/CGridView.php(482): CGridView->renderTableBody()
+#8 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(167): CGridView->renderItems()
+#9 [internal function]: CBaseListView->renderSection(Array)
+#10 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback('/{(\w+)}/', Array, '{items}')
+#11 /var/www/html/kantong_kresek/framework/zii/widgets/CBaseListView.php(135): CBaseListView->renderContent()
+#12 /var/www/html/kantong_kresek/framework/web/CBaseController.php(173): CBaseListView->run()
+#13 /var/www/html/kantong_kresek/protected/views/absen/list.php(62): CBaseController->widget('zii.widgets.gri...', Array)
+#14 /var/www/html/kantong_kresek/framework/web/CBaseController.php(126): require('/var/www/html/k...')
+#15 /var/www/html/kantong_kresek/framework/web/CBaseController.php(95): CBaseController->renderInternal('/var/www/html/k...', Array, true)
+#16 /var/www/html/kantong_kresek/framework/web/CController.php(869): CBaseController->renderFile('/var/www/html/k...', Array, true)
+#17 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('list', Array, true)
+#18 /var/www/html/kantong_kresek/protected/controllers/AbsenController.php(153): CController->render('list', Array)
+#19 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): AbsenController->actionList()
+#20 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#21 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#22 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#23 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#24 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#25 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#26 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#27 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#28 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('list')
+#29 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('absen/list')
+#30 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#31 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#32 {main}
+REQUEST_URI=/kantong_kresek/index.php/absen/list
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/absen/list
+---
+2014/05/21 08:01:20 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "sg".' in /var/www/html/kantong_kresek/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('sg')
+#1 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/kantong_kresek/index.php/sg
+---
+2014/05/21 13:47:18 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to perform this action.' in /var/www/html/kantong_kresek/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(WebUser), 'You are not aut...')
+#1 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('index')
+#8 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('accounting/inde...')
+#9 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#11 {main}
+REQUEST_URI=/kantong_kresek/index.php/accounting/index
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/invoicePenjualan/create
+---
+2014/05/21 14:01:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "listCode".' in /var/www/html/kantong_kresek/framework/web/CController.php:483
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(270): CController->missingAction('listCode')
+#1 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('listCode')
+#2 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('accounting/list...')
+#3 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/kantong_kresek/index.php/accounting/listCode
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/accounting/index
+---
+2014/05/21 14:06:37 [error] [exception.CException] exception 'CException' with message 'AccountingController cannot find the requested view "newCode".' in /var/www/html/kantong_kresek/framework/web/CController.php:878
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(782): CController->renderPartial('newCode', NULL, true)
+#1 /var/www/html/kantong_kresek/protected/controllers/AccountingController.php(144): CController->render('newCode')
+#2 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(49): AccountingController->actionNewCode()
+#3 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#10 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('newCode')
+#12 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('accounting/newC...')
+#13 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#15 {main}
+REQUEST_URI=/kantong_kresek/index.php/accounting/newCode
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/accounting/listCode
+---
+2014/05/21 14:13:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "report".' in /var/www/html/kantong_kresek/framework/web/CController.php:483
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(270): CController->missingAction('report')
+#1 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('report')
+#2 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('accounting/repo...')
+#3 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/kantong_kresek/index.php/accounting/report
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/accounting/listCode
+---
+2014/05/21 14:24:27 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "report".' in /var/www/html/kantong_kresek/framework/web/CController.php:483
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(270): CController->missingAction('report')
+#1 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('report')
+#2 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('accounting/repo...')
+#3 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/kantong_kresek/index.php/accounting/report
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/accounting/create
+---
+2014/05/23 14:25:08 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'You are not authorized to perform this action.' in /var/www/html/kantong_kresek/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(WebUser), 'You are not aut...')
+#1 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#6 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('index')
+#8 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('accounting/inde...')
+#9 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#11 {main}
+REQUEST_URI=/kantong_kresek/index.php/accounting/index
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/site/login
+---
+2014/05/23 14:25:26 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "report".' in /var/www/html/kantong_kresek/framework/web/CController.php:483
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CController.php(270): CController->missingAction('report')
+#1 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('report')
+#2 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('accounting/repo...')
+#3 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/kantong_kresek/index.php/accounting/report
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/accounting/index
+---
+2014/05/27 16:28:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "penjualan/create".' in /var/www/html/kantong_kresek/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('penjualan/creat...')
+#1 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/kantong_kresek/index.php/penjualan/create
+HTTP_REFERER=http://127.0.0.1/kantong_kresek/index.php/site/login
+---
+2014/07/09 18:15:07 [error] [system.db.CDbCommand] CDbCommand::fetch() failed: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens. The SQL statement executed was: SELECT * FROM `inventory` `t` WHERE nama_barang=:nama_barang AND invoice_id=:invoice_id AND lokasi=:lokasi AND serial_number=:serial_number LIMIT 1.
+in /var/www/html/kantong_kresek/protected/controllers/InventoryController.php (286)
+in /var/www/html/kantong_kresek/index.php (15)
+2014/07/09 18:15:07 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens. The SQL statement executed was: SELECT * FROM `inventory` `t` WHERE nama_barang=:nama_barang AND invoice_id=:invoice_id AND lokasi=:lokasi AND serial_number=:serial_number LIMIT 1' in /var/www/html/kantong_kresek/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /var/www/html/kantong_kresek/framework/db/CDbCommand.php(415): CDbCommand->queryInternal('fetch', Array, Array)
+#1 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(1351): CDbCommand->queryRow()
+#2 /var/www/html/kantong_kresek/framework/db/ar/CActiveRecord.php(1456): CActiveRecord->query(Object(CDbCriteria))
+#3 /var/www/html/kantong_kresek/protected/controllers/InventoryController.php(286): CActiveRecord->find(Object(CDbCriteria))
+#4 [internal function]: InventoryController->actionChoosePindah('23')
+#5 /var/www/html/kantong_kresek/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(InventoryController), Array)
+#6 /var/www/html/kantong_kresek/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(InventoryController), Object(ReflectionMethod), Array)
+#7 /var/www/html/kantong_kresek/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#9 /var/www/html/kantong_kresek/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#10 /var/www/html/kantong_kresek/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#11 /var/www/html/kantong_kresek/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#12 /var/www/html/kantong_kresek/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#13 /var/www/html/kantong_kresek/framework/web/CController.php(291): CFilterChain->run()
+#14 /var/www/html/kantong_kresek/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#15 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(282): CController->run('choosePindah')
+#16 /var/www/html/kantong_kresek/framework/web/CWebApplication.php(141): CWebApplication->runController('inventory/choos...')
+#17 /var/www/html/kantong_kresek/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#18 /var/www/html/kantong_kresek/index.php(15): CApplication->run()
+#19 {main}
+REQUEST_URI=/kantong_kresek/index.php/inventory/choosePindah/23
+HTTP_REFERER=http://localhost/kantong_kresek/index.php/inventory/choosePindah/23
+---
+2014/07/09 18:18:39 [warning] [application] Failed to set unsafe attribute "id" of "Inventory".
+in /var/www/html/kantong_kresek/protected/controllers/InventoryController.php (289)
+in /var/www/html/kantong_kresek/index.php (15)
+2014/07/09 18:18:39 [warning] [application] Failed to set unsafe attribute "serial_number" of "Inventory".
+in /var/www/html/kantong_kresek/protected/controllers/InventoryController.php (289)
+in /var/www/html/kantong_kresek/index.php (15)
+2014/07/09 18:18:39 [warning] [application] Failed to set unsafe attribute "harga" of "Inventory".
+in /var/www/html/kantong_kresek/protected/controllers/InventoryController.php (289)
+in /var/www/html/kantong_kresek/index.php (15)

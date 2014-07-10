@@ -37,7 +37,17 @@ Yii::import('ext.Utilities');
 		'template'=>"{items}",
 		'columns' => array (
 			'id',
-			'nomor',
+			array(
+				'name'=>'Nomor',
+				'type'=>'raw',
+				'value'=>function($data) {
+					if($data->batal == 0) {
+						return $data->nomor;
+					} else {
+						return $data->nomor . ' (<span style="color:red;">BATAL</span>)';
+					}
+				},
+			),
 			'nama_pembeli',
 			'nama_terkirim',
 			array(

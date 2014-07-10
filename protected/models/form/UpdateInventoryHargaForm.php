@@ -1,6 +1,7 @@
 <?php
 class UpdateInventoryHargaForm extends CFormModel
 {
+	public $harga;
 	public $harga_minimum;
 	public $harga_minimum_khusus;
 
@@ -10,9 +11,9 @@ class UpdateInventoryHargaForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('harga_minimum, harga_minimum_khusus', 'required'),
-			array('harga_minimum, harga_minimum_khusus', 'numerical', 'integerOnly'=>true),
-			array('harga_minimum, harga_minimum_khusus', 'length', 'max'=>10),
+			array('harga, harga_minimum, harga_minimum_khusus', 'required'),
+			array('harga, harga_minimum, harga_minimum_khusus', 'numerical', 'integerOnly'=>true),
+			array('harga, harga_minimum, harga_minimum_khusus', 'length', 'max'=>10),
 		);
 	}
 }

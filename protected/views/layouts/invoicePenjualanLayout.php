@@ -18,6 +18,7 @@
 				<?php if(Yii::app()->user->roles == 'admin'): ?>
 					<li <?php if(isset($this->active) &&  $this->active == "report"):?>class="active"<?php endif;?>><?php echo CHtml::link("Laporan", array('invoicePenjualan/report'))?></li>
 				<?php endif; ?>
+				<li <?php if(isset($this->active) &&  $this->active == "today"):?>class="active"<?php endif;?>><?php echo CHtml::link("Penjualan Hari Ini", array('invoicePenjualan/listToday'))?></li>
 			</ul>
 		</div>
 	</div>

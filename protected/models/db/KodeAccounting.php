@@ -98,4 +98,16 @@ class KodeAccounting extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public static function findAllCode() {
+		$allCode = self::model()->findAll();
+	
+		$returnArray = array();
+	
+		foreach($allCode as $code) {
+			$returnArray[$code->id] = $code->kode . " - " . $code->nama;
+		}
+	
+		return $returnArray;
+	}
 }

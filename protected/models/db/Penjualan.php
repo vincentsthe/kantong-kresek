@@ -8,10 +8,16 @@
  * @property string $nama_barang
  * @property integer $quantity
  * @property integer $harga
+ * @property integer $harga_minimum
+ * @property integer $harga_minimum_khusus
+ * @property integer $harga_terjual
  * @property integer $invoice_id
+ * @property integer $invoice_pembelian_id
+ * @property string $serial_number
  *
  * The followings are the available model relations:
  * @property InvoicePenjualan $invoice
+ * @property InvoicePembelian $invoidePembelian
  */
 class Penjualan extends CActiveRecord
 {
@@ -49,6 +55,7 @@ class Penjualan extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'invoice' => array(self::BELONGS_TO, 'InvoicePenjualan', 'invoice_id'),
+			'invoicePembelian' => array(self::BELONGS_TO, 'InvoicePembelian', 'invoice_pembelian_id'),
 		);
 	}
 

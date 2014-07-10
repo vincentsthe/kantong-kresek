@@ -99,14 +99,14 @@ class Nomor extends CActiveRecord
 		$criteria = new CDbCriteria;
 		$criteria->condition = "tipe='invoice_penjualan'";
 		
-		return Self::model()->find($criteria)->nomor;
+		return self::model()->find($criteria)->nomor;
 	}
 	
 	public static function incrementInvoicePenjualanNumber() {
 		$criteria = new CDbCriteria;
 		$criteria->condition = "tipe='invoice_penjualan'";
 		
-		$oldRecord = Self::model()->find($criteria);
+		$oldRecord = self::model()->find($criteria);
 		$oldNomor = $oldRecord->nomor;
 		
 		$headerChar = substr($oldNomor, 3, 1);
@@ -126,14 +126,14 @@ class Nomor extends CActiveRecord
 		$criteria = new CDbCriteria;
 		$criteria->condition = "tipe='invoice_pembelian'";
 		
-		return Self::model()->find($criteria)->nomor;
+		return self::model()->find($criteria)->nomor;
 	}
 	
 	public static function incrementInvoicePembelianNumber() {
 		$criteria = new CDbCriteria;
 		$criteria->condition = "tipe='invoice_pembelian'";
 		
-		$oldRecord = Self::model()->find($criteria);
+		$oldRecord = self::model()->find($criteria);
 		$oldNomor = $oldRecord->nomor;
 		
 		$headerChar = substr($oldNomor, 3, 1);

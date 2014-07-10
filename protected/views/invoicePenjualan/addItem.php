@@ -30,6 +30,17 @@
 
 <div class="row">
 	<div class="col-md-3">
+		<h5 class="font-light">Harga</h5>
+	</div>
+	<div class="col-md-9">
+		<h5 class="font-light"><?php 
+			echo Utilities::currency($barang->harga);
+		?></h5>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
 		<h5 class="font-light">Harga Minimum</h5>
 	</div>
 	<div class="col-md-9">
@@ -39,16 +50,18 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-md-3">
-		<h5 class="font-light">Harga Minimum Khusus</h5>
+<?php if(Yii::app()->user->roles == "admin"): ?>
+	<div class="row">
+		<div class="col-md-3">
+			<h5 class="font-light">Harga Minimum Khusus</h5>
+		</div>
+		<div class="col-md-9">
+			<h5 class="font-light"><?php 
+				echo Utilities::currency($barang->harga_minimum_khusus);
+			?></h5>
+		</div>
 	</div>
-	<div class="col-md-9">
-		<h5 class="font-light"><?php 
-			echo Utilities::currency($barang->harga_minimum_khusus);
-		?></h5>
-	</div>
-</div>
+<?php endif; ?>
 
 <div class="row">
 	<div class="col-md-3">

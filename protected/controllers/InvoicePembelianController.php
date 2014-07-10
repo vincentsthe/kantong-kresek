@@ -78,7 +78,7 @@ class InvoicePembelianController extends Controller
 				$session->open();
 				$session['invoicePembelian'] = $model;
 				$session['listPembelian'] = array();
-				return Self::actionPreview();
+				return self::actionPreview();
 			} else {
 				Yii::app()->user->setFlash('error', 'Input tidak valid.');
 			}

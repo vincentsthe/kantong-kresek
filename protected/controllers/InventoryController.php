@@ -31,7 +31,7 @@ class InventoryController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'view', 'delete', 'create','update', 'listUnspecified', 'updateHarga', 'pindah', 'choosePindah', 'minimum', 'minimumKhusus'),
+				'actions'=>array('index', 'view', 'delete', 'create','assign', 'listUnspecified', 'updateHarga', 'pindah', 'choosePindah', 'minimum', 'minimumKhusus'),
 				'roles'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -83,28 +83,56 @@ class InventoryController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionAssign($id)
 	{
 		$this->active = 'list';
 		
 		$model=$this->loadModel($id);
+		$assignForm = new AssignItemForm;
+		
+		if(isset($_POST['ajax']) && $_POST['ajax']==='assign-item-form') {
+			echo CActiveForm::validate($assignForm);
+			Yii::app()->end();
+		}
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['Inventory']))
+		if(isset($_POST['AssignItemForm']))
 		{
-			$model->attributes=$_POST['Inventory'];
-			if($model->save()) {
-				Yii::app()->user->setFlash("success", "Barang berhasil diregistrasi.");
-				$this->redirect(array('index'));
+			$assignForm->attributes=$_POST['AssignItemForm'];
+			if($assignForm->validate()) {
+				if (($assignForm->jumlah <= $model->jumlah_barang) && ($assignForm->jumlah > 0)) {
+					$barang = new Inventory();
+					$barang->nama_barang = $model->nama_barang;
+					$barang->jumlah_barang = $assignForm->jumlah;
+					$barang->invoice_id = $model->invoice_id;
+					$barang->lokasi = $assignForm->lokasi;
+					$barang->harga = $assignForm->harga;
+					$barang->harga_minimum = $assignForm->harga_minimum;
+					$barang->harga_minimum_khusus = $assignForm->harga_minimum_khusus;
+					$barang->serial_number = $assignForm->serial_number;
+					
+					Inventory::tambah($barang);
+					
+					$model->jumlah_barang = $model->jumlah_barang - $assignForm->jumlah;
+					$model->save();
+					
+					$model->deleteIfEmpty();
+					
+					Yii::app()->user->setFlash("success", "Barang berhasil diregistrasi.");
+					$this->redirect(array('index'));
+				} else {
+					Yii::app()->user->setFlash("error", "Jumlah barang tidak mencukupi");
+				}
 			} else {
 				Yii::app()->user->setFlash("error", "Input tidak valid.");
 			}
 		}
 
-		$this->render('update',array(
-			'model'=>$model,
+		$this->render('assign',array(
+			'barang'=>$model,
+			'model'=>$assignForm,
 		));
 	}
 	
@@ -113,6 +141,7 @@ class InventoryController extends Controller
 		
 		$model = new UpdateInventoryHargaForm;
 		$inventory = $this->loadModel($id);
+		$model->harga = $inventory->harga;
 		$model->harga_minimum = $inventory->harga_minimum;
 		$model->harga_minimum_khusus = $inventory->harga_minimum_khusus;
 		
@@ -123,6 +152,7 @@ class InventoryController extends Controller
 		
 		if(isset($_POST['UpdateInventoryHargaForm'])) {
 			$model->attributes = $_POST['UpdateInventoryHargaForm'];
+			$inventory->harga = $model->harga;
 			$inventory->harga_minimum = $model->harga_minimum;
 			$inventory->harga_minimum_khusus = $model->harga_minimum_khusus;
 			
@@ -248,7 +278,10 @@ class InventoryController extends Controller
 				if(($model->jumlah > 0) && ($model->jumlah <= $barang->jumlah_barang)) {
 					$criteria = new CDbCriteria;
 					$criteria->condition = "nama_barang=:nama_barang AND invoice_id=:invoice_id AND lokasi=:lokasi";
-					$criteria->params = array(':nama_barang'=>$barang->nama_barang, ':invoice_id'=>$barang->invoice_id, ':lokasi'=>$model->lokasiTujuan);
+					$criteria->params = array(':nama_barang'=>$barang->nama_barang,
+											  ':invoice_id'=>$barang->invoice_id,
+											  ':lokasi'=>$model->lokasiTujuan,
+										);
 					
 					$inventory = Inventory::model()->find($criteria);
 					if($inventory == null) {

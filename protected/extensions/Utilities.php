@@ -45,7 +45,19 @@ class Utilities {
 	
 	public static function currency($value) {
 		setlocale(LC_MONETARY, 'id_ID.UTF-8');
-		return preg_replace("/^IDR/", "Rp ", money_format('%i', floatval($value)));
+		return preg_replace("/IDR/", "Rp ", money_format('%i', floatval($value)));
+	}
+	
+	public static function getTodayTimeStamp() {
+		$date = self::timestampToFormattedDate(time());		
+		$time = strptime($date, "%d-%m-%Y %H:%M");
+		return mktime(0, 0, 0, $time['tm_mon']+1, $time['tm_mday'], $time['tm_year'] + 1900);
+	}
+	
+	public static function beginDay($timeStamp) {
+		$date = self::timestampToFormattedDate($timeStamp);
+		$time = strptime($date, "%d-%m-%Y %H:%M");
+		return mktime(0, 0, 0, $time['tm_mon']+1, $time['tm_mday'], $time['tm_year'] + 1900);
 	}
 	
 }

@@ -74,12 +74,12 @@ Yii::import('ext.Utilities');
 			'nama_barang',
 			'jumlah_barang',
 			array(
-				'name'=>'Invoice',
-				'value'=>'$data->invoice->nomor',
-			),
-			array(
 				'name'=>'Lokasi',
 				'value'=>'$data->lokasi0->nama',
+			),
+			array(
+				'name'=>'Harga',
+				'value'=>'Utilities::currency($data->harga)',
 			),
 			array(
 				'name'=>'Harga Minimum',
@@ -93,7 +93,8 @@ Yii::import('ext.Utilities');
 				'name'=>'',
 				'type'=>'raw',
 				'value'=>function($data) {
-					return CHtml::link('<span class="glyphicon glyphicon-edit"></span>', array('inventory/updateHarga', 'id'=>$data->id));
+					return CHtml::link('<span class="glyphicon glyphicon-search"></span>', array('inventory/view', 'id'=>$data->id)) . " " .
+						   CHtml::link('<span class="glyphicon glyphicon-edit"></span>', array('inventory/updateHarga', 'id'=>$data->id));
 				},
 			),
 		),

@@ -30,11 +30,11 @@ class InvoicePenjualanController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'view', 'delete', 'create','update','createNew','preview','chooseItem','addItem','pembayaran','final','doCreate','print','removeItem','report'),
+				'actions'=>array('index', 'view', 'delete', 'create','update','createNew','preview','chooseItem','addItem','pembayaran','final','doCreate','print','removeItem','report','listToday','cancel'),
 				'roles'=>array('admin'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('create','delete','createNew','preview','chooseItem','addItem','pembayaran','final','doCreate','print','removeItem'),
+				'actions'=>array('create','delete','createNew','preview','chooseItem','addItem','pembayaran','final','doCreate','print','removeItem','listToday','cancel'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -49,11 +49,53 @@ class InvoicePenjualanController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->active = "view";
+		$invoice = $this->loadModel($id);
+		
+		if(!(Yii::app()->user->roles == "admin") && ($invoice->waktu_penerbitan < Utilities::getTodayTimeStamp())) {
+			throw new CHttpException(403, "Not Authorized");
+		}
+		
+		if(Yii::app()->user->roles == "admin") {
+			$this->active = "index";
+		} else {
+			$this->active = "today";
+		}
 		
 		$this->render('view',array(
 			'invoice'=>$this->loadModel($id),
 		));
+	}
+	
+	public function actionCancel($id) {
+		$invoice = $this->loadModel($id);
+		
+		if(!(Yii::app()->user->roles == "admin") && ($invoice->waktu_penerbitan < Utilities::getTodayTimeStamp())) {
+			throw new CHttpException(403, "Not Authorized");
+		}
+		
+		foreach ($invoice->penjualans as $penjualan) {
+			$inventory = new Inventory;
+			
+			$inventory->nama_barang = $penjualan->nama_barang;
+			$inventory->lokasi = $invoice->location;
+			$inventory->jumlah_barang = $penjualan->quantity;
+			$inventory->invoice_id = $penjualan->invoice_pembelian_id;
+			$inventory->harga = $penjualan->harga;
+			$inventory->harga_minimum = $penjualan->harga_minimum;
+			$inventory->harga_minimum_khusus = $penjualan->harga_minimum_khusus;
+			$inventory->serial_number = $penjualan->serial_number;
+			
+			Inventory::tambah($inventory);
+		}
+		
+		$invoice->batal = 1;
+		$invoice->save();
+		
+		if(Yii::app()->user->roles == "admin") {
+			$this->redirect(array("index"));
+		} else {
+			$this->redirect(array("listToday"));
+		}
 	}
 	
 	public function actionCreateNew() {
@@ -149,7 +191,7 @@ class InvoicePenjualanController extends Controller
 		$criteria->condition = "lokasi=" . Yii::app()->user->location;
 		
 		if(isset($_GET['filter'])) {
-			$criteria->addCondition('namaBarang LIKE %' . $_GET['filter'] . '%');
+			$criteria->addCondition('nama_barang LIKE "%' . $_GET['filter'] . '%"');
 		}
 		
 		$dataProvider = new CActiveDataProvider('Inventory', array(
@@ -187,12 +229,22 @@ class InvoicePenjualanController extends Controller
 			
 			if($hargaForm->validate()) {
 				if(($hargaForm->jumlah > 0) && ($hargaForm->jumlah <= $barang->jumlah_barang)) {
-					if((($session['contact']->tipe_pembeli == 1) && ($hargaForm->harga >= $barang->harga_minimum)) || (($session['contact']->tipe_pembeli == 2) && ($hargaForm->harga >= $barang->harga_minimum_khusus))) {
+					
+					$hargaMinimal = 0;
+					if(Yii::app()->user->roles == "admin") {
+						$hargaMinimal = $barang->harga_minimum_khusus;
+					} else {
+						$hargaMinimal = $barang->harga_minimum;
+					}
+					
+					if ($hargaForm->harga >= $hargaMinimal) {
 						$penjualan = new PenjualanBaru;
 						$penjualan->nama_barang = $barang->nama_barang;
 						$penjualan->quantity = $hargaForm->jumlah;
-						$penjualan->harga = $hargaForm->harga;
+						$penjualan->harga = $barang->harga;
+						$penjualan->harga_terjual = $hargaForm->harga;
 						$penjualan->inventory_id = $inventoryId;
+						$penjualan->serial_number = $barang->serial_number;
 						
 						$listPenjualan = $session['listPenjualan'];
 						
@@ -356,11 +408,18 @@ class InvoicePenjualanController extends Controller
 			$listPenjualan = $session['listPenjualan'];
 			
 			foreach($listPenjualan as $penjualanBaru) {
+				$inventory = Inventory::model()->findByPk($penjualanBaru->inventory_id);
+				
 				$newPenjualan = new Penjualan;
 				$newPenjualan->nama_barang = $penjualanBaru->nama_barang;
 				$newPenjualan->quantity = $penjualanBaru->quantity;
 				$newPenjualan->harga = $penjualanBaru->harga;
+				$newPenjualan->harga_minimum = $inventory->harga_minimum;
+				$newPenjualan->harga_minimum_khusus = $inventory->harga_minimum_khusus;
+				$newPenjualan->harga_terjual = $penjualanBaru->harga_terjual;
 				$newPenjualan->invoice_id = $invoice->id;
+				$newPenjualan->invoice_pembelian_id = $inventory->invoice_id;
+				$newPenjualan->serial_number = $penjualanBaru->serial_number;
 				$newPenjualan->save();
 				
 				//deduct from inventory
@@ -369,6 +428,8 @@ class InvoicePenjualanController extends Controller
 				$inventory->jumlah_barang = $inventory->jumlah_barang - $newPenjualan->quantity;
 				$inventory->save();
 				$inventory->deleteIfEmpty();
+				
+				Tunggakan::createFromInvoice($invoice);
 			}
 		} else {
 			throw new CHttpException(500, "Error");
@@ -444,6 +505,7 @@ class InvoicePenjualanController extends Controller
 				'pageSize' => 20,
 			),
 			'sort'=>array(
+				'defaultOrder'=>'id DESC',
 				'attributes'=>array(
 					'Waktu Penerbitan'=>array(
 						'asc'=>'waktu_penerbitan',
@@ -484,6 +546,7 @@ class InvoicePenjualanController extends Controller
 					'pageSize'=>20,
 				),
 				'sort'=>array(
+						'defaultOrder'=>'id DESC',
 						'attributes'=>array(
 								'Waktu Transaksi'=>array(
 										'asc'=>'waktu_penerbitan',
@@ -521,6 +584,34 @@ class InvoicePenjualanController extends Controller
 		
 		$this->render('print', array(
 			'invoice' => $invoice,
+		));
+	}
+	
+	public function actionListToday() {
+		$this->active = "today";
+		
+		$criteria = new CDbCriteria;
+		$criteria->condition = "waktu_penerbitan>" . Utilities::getTodayTimeStamp();
+		
+		$dataProvider=new CActiveDataProvider('InvoicePenjualan', array(
+				'criteria' => $criteria,
+				'pagination' => array (
+						'pageSize' => 20,
+				),
+				'sort'=>array(
+						'defaultOrder'=>'id DESC',
+						'attributes'=>array(
+								'Waktu Penerbitan'=>array(
+										'asc'=>'waktu_penerbitan',
+										'desc'=>'waktu_penerbitan DESC',
+								),
+								'*',
+						),
+				),
+		));
+		
+		$this->render('index',array(
+				'dataProvider'=>$dataProvider,
 		));
 	}
 

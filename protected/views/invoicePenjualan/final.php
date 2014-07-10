@@ -5,6 +5,7 @@
 
 Yii::import('ext.Utilities');
 $hargaTotal = 0;
+$diskonTotal = 0;
 ?>
 
 <h1>Invoice Penjualan</h1>
@@ -54,6 +55,7 @@ $hargaTotal = 0;
 			<td class="text-right"><?php echo Utilities::currency($item->harga * $item->quantity); ?></td>
 		</tr>
 		<?php $hargaTotal += $item->harga * $item->quantity?>
+		<?php $diskonTotal += ($item->harga - $item->harga_terjual) * $item->quantity?>
 	<?php endforeach;?>
 </table>
 
@@ -65,6 +67,8 @@ $hargaTotal = 0;
 	<div class="col-md-3">
 		<h5>Harga Total</h5>
 		<h5>Biaya Pengiriman</h5>
+		<h5>Jumlah</h5>
+		<h5>Diskon</h5>
 		<h5><b>Total</b></h5><br>
 		<h5>Pembayaran</h5>
 		<h5><b>Down Payment</b></h5>
@@ -72,7 +76,9 @@ $hargaTotal = 0;
 	<div class="col-md-2">
 		<h5><?php echo Utilities::currency($hargaTotal); ?></h5>
 		<h5><?php echo Utilities::currency($invoice->biaya_pengiriman); ?></h5>
-		<h5><b><?php echo Utilities::currency($hargaTotal + $invoice->biaya_pengiriman); ?></b></h5><br>
+		<h5><?php echo Utilities::currency($hargaTotal); ?></h5>
+		<h5><?php echo Utilities::currency($diskonTotal); ?></h5>
+		<h5><b><?php echo Utilities::currency($hargaTotal - $diskonTotal); ?></b></h5><br>
 		<h5><?php echo $invoice->jenis_pembayaran?></h5>
 		<h5><b><?php echo Utilities::currency($invoice->down_payment); ?></b></h5>
 	</div>

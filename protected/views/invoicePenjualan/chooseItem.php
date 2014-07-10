@@ -38,15 +38,19 @@ Yii::import('ext.Utilities');
 		'columns' => array (
 			'id',
 			'nama_barang',
-			'jumlah_barang',
+			array(
+				'name'=>'Jumlah',
+				'value'=>'$data->jumlah_barang',
+			),
+			array(
+				'name'=>'Harga',
+				'value'=>'Utilities::currency($data->harga)',
+			),
 			array(
 				'name'=>'Harga Minimum',
 				'value'=>'Utilities::currency($data->harga_minimum)',
 			),
-			array(
-				'name'=>'Harga Minimum Khusus',
-				'value'=>'Utilities::currency($data->harga_minimum_khusus)',
-			),
+			'serial_number',
 			array(
 				'name'=>'',
 				'type'=>'raw',

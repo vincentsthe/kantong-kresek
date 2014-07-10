@@ -2,31 +2,89 @@
 /* @var $this InventoryController */
 /* @var $model Inventory */
 
-$this->breadcrumbs=array(
-	'Inventories'=>array('index'),
-	$model->id,
-);
-
-$this->menu=array(
-	array('label'=>'List Inventory', 'url'=>array('index')),
-	array('label'=>'Create Inventory', 'url'=>array('create')),
-	array('label'=>'Update Inventory', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete Inventory', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Inventory', 'url'=>array('admin')),
-);
+Yii::import('ext.utilities');
 ?>
 
-<h1>View Inventory #<?php echo $model->id; ?></h1>
+<h1><?php echo $model->nama_barang; ?></h1>
+<hr>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'id',
-		'nama_barang',
-		'jumlah_barang',
-		'lokasi',
-		'invoice_id',
-		'harga_minimum',
-		'harga_minimum_khusus',
-	),
-)); ?>
+<div class="row">
+	<div class="col-md-3">
+		<h5 class="font-light">Jumlah</h5>
+	</div>
+	<div class="col-md-9">
+		<h5><?php echo $model->jumlah_barang; ?></h5>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-3">
+		<h5 class="font-light">Lokasi</h5>
+	</div>
+	<div class="col-md-9">
+		<?php if($model->lokasi0 != null): ?>
+			<h5><?php echo $model->lokasi0->nama; ?></h5>
+		<?php else: ?>
+			<h5>Belum ditempatkan</h5>
+		<?php endif;?>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<h5 class="font-light">Invoice</h5>
+	</div>
+	<div class="col-md-9">
+		<h5><?php echo CHtml::link($model->invoice->nomor, array('invoicePembelian/view', 'id'=>$model->invoice->id)); ?></h5>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<h5 class="font-light">Harga</h5>
+	</div>
+	<div class="col-md-9">
+		<?php if($model->harga != null): ?>
+			<h5><?php echo Utilities::currency($model->harga); ?></h5>
+		<?php else: ?>
+			<h5>-</h5>
+		<?php endif;?>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<h5 class="font-light">Harga Minimum</h5>
+	</div>
+	<div class="col-md-9">
+		<?php if($model->harga_minimum != null): ?>
+			<h5><?php echo Utilities::currency($model->harga_minimum); ?></h5>
+		<?php else: ?>
+			<h5>-</h5>
+		<?php endif;?>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<h5 class="font-light">Harga Minimum Khusus</h5>
+	</div>
+	<div class="col-md-9">
+		<?php if($model->harga_minimum_khusus != null): ?>
+			<h5><?php echo Utilities::currency($model->harga_minimum_khusus); ?></h5>
+		<?php else: ?>
+			<h5>-</h5>
+		<?php endif;?>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3">
+		<h5 class="font-light">Serial Number</h5>
+	</div>
+	<div class="col-md-9">
+		<h5><?php echo $model->serial_number; ?></h5>
+	</div>
+</div>
+
