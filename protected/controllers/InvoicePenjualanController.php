@@ -146,9 +146,6 @@ class InvoicePenjualanController extends Controller
 			$model->attributes = $session['contact']->getAttributes();
 		}
 		
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-		
 		if(Yii::app()->user->hasFlash('error')) {
 			Yii::app()->user->setFlash('error', Yii::app()->user->getFlash('error'));
 		}

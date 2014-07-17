@@ -18,6 +18,18 @@ class Absen extends CActiveRecord
 	public static $TYPE_DATANG = 0;
 	public static $TYPE_PULANG = 1;
 	
+	public static function createAbsen($userId, $timeStamp, $type) {
+		$instance = new Absen;
+		
+		$instance->user_id = $userId;
+		$instance->timestamp = $timeStamp;
+		$instance->type = $type;
+		
+		$instance->save();
+		
+		return $instance;
+	}
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -104,32 +116,40 @@ class Absen extends CActiveRecord
 		return parent::model($className);
 	}
 	
-	public static function doAbsen($userId) {
+	public static function getAllTodayAbsenByUser($user) {
 		$criteria = new CDbCriteria;
-		$criteria->condition = "user_id=" . $userId . " AND timestamp>=" . Utilities::getTodayTimeStamp() . " AND type=" . self::$TYPE_PULANG;
-		$instance = self::model()->find($criteria);
+		$criteria->addCondition('user_id=' . $user->id);
+		$criteria->addCondition('timestamp>=' . Utilities::getTodayTimeStamp());
 		
-		if($instance != null) {
-			$instance->timestamp = time();
-			$instance->save();
-		} else {
-			$criteria->condition = "user_id=" . $userId . " AND timestamp>=" . Utilities::getTodayTimeStamp() . " AND type=" . self::$TYPE_DATANG;
-			$instance = self::model()->find($criteria);
-			if($instance != null) {
-				$newAbsen = new Absen;
-				
-				$newAbsen->user_id = $userId;
-				$newAbsen->timestamp = time();
-				$newAbsen->type = self::$TYPE_PULANG;
-				$newAbsen->save();
-			} else {
-				$newAbsen = new Absen;
-				
-				$newAbsen->user_id = $userId;
-				$newAbsen->timestamp = time();
-				$newAbsen->type = self::$TYPE_DATANG;
-				$newAbsen->save();
-			}
-		}
+		return self::model()->findAll($criteria);
+	}
+	
+	public function updateTimestamp($timeStamp) {
+		$this->timestamp = $timeStamp;
+		$this->save();
+	}
+	
+	public static function getAbsenMasuk($time) {
+		$startTime = Utilities::beginDay($time);
+		$endTime = $startTime + (24 * 60 * 60);
+		
+		$criteria = new CDbCriteria;
+		$criteria->condition = "type=" . Absen::$TYPE_DATANG . " AND timestamp>=" . $startTime . " AND timestamp<" . $endTime;
+		
+		return new CActiveDataProvider('Absen', array(
+				'criteria' => $criteria,
+			));
+	}
+	
+	public static function getAbsenPulang($time) {
+		$startTime = Utilities::beginDay($time);
+		$endTime = $startTime + (24 * 60 * 60);
+		
+		$criteria = new CDbCriteria;
+		$criteria->condition = "type=" . Absen::$TYPE_PULANG . " AND timestamp>=" . $startTime . " AND timestamp<" . $endTime;
+		
+		return new CActiveDataProvider('Absen', array(
+				'criteria' => $criteria,
+			));
 	}
 }

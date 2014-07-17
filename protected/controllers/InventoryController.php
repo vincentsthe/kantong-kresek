@@ -103,22 +103,11 @@ class InventoryController extends Controller
 			$assignForm->attributes=$_POST['AssignItemForm'];
 			if($assignForm->validate()) {
 				if (($assignForm->jumlah <= $model->jumlah_barang) && ($assignForm->jumlah > 0)) {
-					$barang = new Inventory();
-					$barang->nama_barang = $model->nama_barang;
-					$barang->jumlah_barang = $assignForm->jumlah;
-					$barang->invoice_id = $model->invoice_id;
-					$barang->lokasi = $assignForm->lokasi;
-					$barang->harga = $assignForm->harga;
-					$barang->harga_minimum = $assignForm->harga_minimum;
-					$barang->harga_minimum_khusus = $assignForm->harga_minimum_khusus;
-					$barang->serial_number = $assignForm->serial_number;
+					$destination = Cabang::getCabangById($assignForm->lokasi);
+					$manager = new InventoryManager($model);
 					
-					Inventory::tambah($barang);
-					
-					$model->jumlah_barang = $model->jumlah_barang - $assignForm->jumlah;
-					$model->save();
-					
-					$model->deleteIfEmpty();
+					$newManager = $manager->pindah($destination, $assignForm->jumlah);
+					$newManager->setHarga($assignForm);
 					
 					Yii::app()->user->setFlash("success", "Barang berhasil diregistrasi.");
 					$this->redirect(array('index'));
@@ -139,11 +128,8 @@ class InventoryController extends Controller
 	public function actionUpdateHarga($id) {
 		$this->active = "index";
 		
-		$model = new UpdateInventoryHargaForm;
 		$inventory = $this->loadModel($id);
-		$model->harga = $inventory->harga;
-		$model->harga_minimum = $inventory->harga_minimum;
-		$model->harga_minimum_khusus = $inventory->harga_minimum_khusus;
+		$model = UpdateInventoryHargaForm::newHargaForm($inventory);
 		
 		if(isset($_POST['ajax']) && $_POST['ajax']==='harga-form') {
 			echo CActiveForm::validate($model);
@@ -152,9 +138,8 @@ class InventoryController extends Controller
 		
 		if(isset($_POST['UpdateInventoryHargaForm'])) {
 			$model->attributes = $_POST['UpdateInventoryHargaForm'];
-			$inventory->harga = $model->harga;
-			$inventory->harga_minimum = $model->harga_minimum;
-			$inventory->harga_minimum_khusus = $model->harga_minimum_khusus;
+			$manager = new InventoryManager($inventory);
+			$manager->setHarga($model);
 			
 			if($inventory->save()) {
 				Yii::app()->user->setFlash('success', "Harga berhasil diedit.");
@@ -276,37 +261,10 @@ class InventoryController extends Controller
 			$model->attributes = $_POST['PindahInventoryForm'];
 			if($model->validate()) {
 				if(($model->jumlah > 0) && ($model->jumlah <= $barang->jumlah_barang)) {
-					$criteria = new CDbCriteria;
-					$criteria->condition = "nama_barang=:nama_barang AND invoice_id=:invoice_id AND lokasi=:lokasi";
-					$criteria->params = array(':nama_barang'=>$barang->nama_barang,
-											  ':invoice_id'=>$barang->invoice_id,
-											  ':lokasi'=>$model->lokasiTujuan,
-										);
+					$cabang = Cabang::getCabangById($model->lokasiTujuan);
 					
-					$inventory = Inventory::model()->find($criteria);
-					if($inventory == null) {
-						$newInventory = new Inventory;
-						$newInventory->attributes = $barang->attributes;
-						$newInventory->id = null;
-						$newInventory->jumlah_barang = $model->jumlah;
-						$newInventory->lokasi = $model->lokasiTujuan;
-
-						if(!$newInventory->save()) {
-							echo CJSON::encode($newInventory);
-							exit;
-							throw new CHttpException(500, "Internal Error");
-						}
-						$barang->jumlah_barang = $barang->jumlah_barang - $model->jumlah;
-						$barang->save();
-						$barang->deleteIfEmpty();
-					} else {
-						$inventory->jumlah_barang = $inventory->jumlah_barang + $model->jumlah;
-						$barang->jumlah_barang = $model->jumlah;
-						
-						$inventory->save();
-						$barang->save();
-						$barang->deleteIfEmpty();
-					}
+					$manager = new InventoryManager($barang);
+					$manager->pindah($cabang, $model->jumlah);
 					Yii::app()->user->setFlash('success', $model->jumlah . " " . $barang->nama_barang . " berhasil dipindahkan");
 					
 					$this->redirect(array('index'));
@@ -352,6 +310,7 @@ class InventoryController extends Controller
 		}
 	}
 	
+	//ajax
 	public function actionMinimum() {
 		$invoiceId = $_POST['invoiceId'];
 		$lokasiId = $_POST['tujuan'];
@@ -370,6 +329,7 @@ class InventoryController extends Controller
 		Yii::app()->end();
 	}
 	
+	//ajax
 	public function actionMinimumKhusus() {
 		$invoiceId = $_POST['invoiceId'];
 		$lokasiId = $_POST['tujuan'];

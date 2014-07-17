@@ -105,6 +105,40 @@ class Inventory extends CActiveRecord
 		));
 	}
 	
+	public function duplicate() {
+		$inventory = new Inventory;
+		
+		$inventory->nama_barang = $this->nama_barang;
+		$inventory->jumlah_barang = 0;
+		$inventory->lokasi = $this->lokasi;
+		$inventory->invoice_id = $this->invoice_id;
+		$inventory->harga = $this->harga;
+		$inventory->harga_minimum = $this->harga_minimum;
+		$inventory->harga_minimum_khusus = $this->harga_minimum_khusus;
+		$inventory->serial_number = $this->serial_number;
+		
+		return $inventory;
+	}
+	
+	public function searchInLocation($location) {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('nama_barang="' . $this->nama_barang . '"');
+		$criteria->addCondition('invoice_id=' . $this->invoice_id);
+		$criteria->addCondition('serial_number="' . $this->serial_number . '"');
+		$criteria->addCondition('lokasi=' . $location->id);
+		
+		$inventory = self::model()->find($criteria);
+		
+		if($inventory != null) {
+			return $inventory;
+		} else {
+			$inventory = $this->duplicate();
+			$inventory->lokasi = $location->id;
+			
+			return $inventory;
+		}
+	}
+	
 	public static function tambah($barang) {
 		$criteria = new CDbCriteria;
 		$criteria->condition = "nama_barang=:nama_barang AND invoice_id=:invoice_id AND lokasi=:lokasi AND serial_number=:serial_number";
@@ -146,6 +180,30 @@ class Inventory extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public function beforeSave() {
+		if(($this->serial_number == null) || (ctype_space($this->serial_number))) {
+			$this->serial_number = "";
+		}
+		
+		return parent::beforeSave();
+	}
+	
+	public function subtract($count) {
+		$this->jumlah_barang = $this->jumlah_barang - $count;
+		$this->save();
+		$this->deleteIfEmpty();
+	}
+	
+	public function add($count) {
+		$this->jumlah_barang = $this->jumlah_barang + $count;
+		$this->save();
+	}
+	
+	public function setLocation($location) {
+		$this->lokasi = $location->id;
+		$this->save();
 	}
 	
 	public function deleteIfEmpty() {

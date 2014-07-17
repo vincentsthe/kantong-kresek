@@ -96,6 +96,16 @@ class Cabang extends CActiveRecord
 		return parent::model($className);
 	}
 	
+	public static function getCabangById($id) {
+		$location = self::model()->findByPk($id);
+		
+		if($location == null) {
+			throw new CHttpException(500, "Internal error, Cabang not found");
+		}
+		
+		return $location;
+	}
+	
 	public static function findAllLocation($empty = false) {
 		$allCabang = self::model()->findAll();
 		

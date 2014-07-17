@@ -104,6 +104,29 @@ class User extends CActiveRecord
 		return parent::model($className);
 	}
 	
+	public static function getUserById($id) {
+		$user = self::model()->findByPk($id);
+		
+		if($user == null) {
+			throw new CHttpException("404", "User ID not valid");
+		} else {
+			return $user;
+		}
+	}
+	
+	public static function getUserByUsername($username) {
+		$criteria = new CDbCriteria;
+		$criteria->condition = "username='" . $username . "'";
+		
+		$user = self::model()->find($criteria);
+		
+		if($user == null) {
+			throw new CHttpException("404", "username not found");
+		} else {
+			return $user;
+		}
+	}
+	
 	public function validatePassword($password) {
 		return $this->password == Utilities::hashPassword($password);
 	}
@@ -114,5 +137,12 @@ class User extends CActiveRecord
 		}
 		
 		return parent::beforeSave();
+	}
+	
+	public static function usernameExist($username) {
+		$criteria = new CDbCriteria;
+		$criteria->condition = "username='" . $username . "'";
+		
+		return (User::model()->find($criteria) != null);
 	}
 }

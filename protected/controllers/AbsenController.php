@@ -16,7 +16,6 @@ class AbsenController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
 
@@ -33,7 +32,7 @@ class AbsenController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('list', 'index'),
+				'actions'=>array('list'),
 				'roles'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -41,109 +40,15 @@ class AbsenController extends Controller
 			),
 		);
 	}
-
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new Absen;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Absen']))
-		{
-			$model->attributes=$_POST['Absen'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Absen']))
-		{
-			$model->attributes=$_POST['Absen'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('Absen');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
 	
 	public function actionList() {
 		if(!isset($_POST['Tanggal'])) {
 			$this->render("list");
 		} else {
-			$startTime = Utilities::beginDay(Utilities::formattedDateToTimestamp($_POST["Tanggal"], "%d-%m-%Y"));
-			$endTime = $startTime + (24 * 60 * 60);
+			$time = Utilities::formattedDateToTimestamp($_POST["Tanggal"], "%d-%m-%Y");
 			
-			$criteria1 = new CDbCriteria;
-			$criteria2 = new CDbCriteria;
-			
-			$criteria1->condition = "type=" . Absen::$TYPE_DATANG . " AND timestamp>=" . $startTime . " AND timestamp<" . $endTime;
-			$criteria2->condition = "type=" . Absen::$TYPE_PULANG . " AND timestamp>=" . $startTime . " AND timestamp<" . $endTime;
-			
-			$absenMasuk = new CActiveDataProvider('Absen', array(
-				'criteria' => $criteria1,
-			));
-			$absenPulang = new CActiveDataProvider('Absen', array(
-				'criteria' => $criteria2,
-			));
+			$absenMasuk = Absen::getAbsenMasuk($time);
+			$absenPulang = Absen::getAbsenPulang($time);
 			
 			$this->render("list", array(
 				'absenMasuk' => $absenMasuk,
@@ -155,38 +60,21 @@ class AbsenController extends Controller
 	
 	public function actionAbsen() {
 		if(isset($_POST['username']) && isset($_POST['token'])) {
-			$criteria = new CDbCriteria;
-			
-			$criteria->condition = "username='" . $_POST['username'] . "'";
-			
-			$user = User::model()->find($criteria);
-			
-			if($user != null) {
-				Absen::doAbsen($user->id);
+			if(User::usernameExist($_POST['username'])) {
+				$user = User::getUserByUsername($_POST['username']);
+				
+				$absenChecker = new AbsenChecker($user);
+				$absenChecker->doAbsen();
 				
 				Yii::app()->user->setFlash("success", "Absen berhasil");
 				$this->redirect("/site/login");
 			} else {
-				throw new CHttpException(404, "Username not found");
+				Yii::app()->user->setFlash("error", "username tidak ditemukan");
+				$this->redirect("/site/login");
 			}
 		} else {
 			throw new CHttpException(400, "Error");
 		}
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new Absen('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Absen']))
-			$model->attributes=$_GET['Absen'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
 	}
 
 	/**

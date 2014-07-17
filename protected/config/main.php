@@ -18,7 +18,8 @@ return array(
 		'application.components.*',
 		'application.models.form.*',
 		'application.models.db.*',
-		'application.models.non_db.*'
+		'application.models.non_db.*',
+		'application.models.operator.*'
 	),
 
 	'modules'=>array(
