@@ -61,13 +61,13 @@ $diskonTotal = 0;
 	</tr>
 	<?php foreach($listPenjualan as $item): ?>
 		<tr>
-			<td><?php echo $item->nama_barang?></td>
+			<td><?php echo $item->inventory->nama_barang?></td>
 			<td><?php echo $item->quantity?></td>
-			<td class="text-right"><?php echo Utilities::currency($item->harga); ?></td>
-			<td class="text-right"><?php echo Utilities::currency($item->harga * $item->quantity); ?></td>
+			<td class="text-right"><?php echo Utilities::currency($item->inventory->harga); ?></td>
+			<td class="text-right"><?php echo Utilities::currency($item->inventory->harga * $item->quantity); ?></td>
 		</tr>
-		<?php $hargaTotal += $item->harga * $item->quantity?>
-		<?php $diskonTotal += ($item->harga - $item->harga_terjual) * $item->quantity?>
+		<?php $hargaTotal += $item->inventory->harga * $item->quantity?>
+		<?php $diskonTotal += ($item->inventory->harga - $item->harga) * $item->quantity?>
 	<?php endforeach;?>
 </table>
 

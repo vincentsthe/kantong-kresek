@@ -13,6 +13,7 @@
 			<ul class="nav nav-pills nav-stacked">
 				<li <?php if(isset($this->active) &&  $this->active == "index"):?>class="active"<?php endif;?>><?php echo CHtml::link("Daftar", array('user/index'))?></li>
 				<li <?php if(isset($this->active) &&  $this->active == "create"):?>class="active"<?php endif;?>><?php echo CHtml::link("Buat User Baru", array('user/create'))?></li>
+				<li <?php if(isset($this->active) &&  $this->active == "listLogin"):?>class="active"<?php endif;?>><?php echo CHtml::link("Izin Login", array('user/listLogin'))?></li>
 			</ul>
 		</div>
 	</div>

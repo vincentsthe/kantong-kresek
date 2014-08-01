@@ -105,6 +105,29 @@ class Inventory extends CActiveRecord
 		));
 	}
 	
+	public static function createInventoryFromPenjualan($penjualan) {
+		$inventory = new Inventory;
+		$inventory->nama_barang = $penjualan->nama_barang;
+		$inventory->lokasi = $invoice->location;
+		$inventory->jumlah_barang = $penjualan->quantity;
+		$inventory->invoice_id = $penjualan->invoice_pembelian_id;
+		$inventory->harga = $penjualan->harga;
+		$inventory->harga_minimum = $penjualan->harga_minimum;
+		$inventory->harga_minimum_khusus = $penjualan->harga_minimum_khusus;
+		$inventory->serial_number = $penjualan->serial_number;
+		
+		return $inventory;
+	}
+	
+	public static function createInventoryFromPembelian($pembelian, $invoiceId) {
+		$inventory = new Inventory;
+		$inventory->nama_barang = $pembelian->nama_barang;
+		$inventory->jumlah_barang = $pembelian->quantity;
+		$inventory->invoice_id = $invoiceId;
+		
+		$inventory->save();
+	}
+	
 	public function duplicate() {
 		$inventory = new Inventory;
 		
@@ -138,38 +161,6 @@ class Inventory extends CActiveRecord
 			return $inventory;
 		}
 	}
-	
-	public static function tambah($barang) {
-		$criteria = new CDbCriteria;
-		$criteria->condition = "nama_barang=:nama_barang AND invoice_id=:invoice_id AND lokasi=:lokasi AND serial_number=:serial_number";
-		$criteria->params = array(
-									":nama_barang"=>$barang->nama_barang,
-									":invoice_id"=>$barang->invoice_id,
-									":lokasi"=>$barang->lokasi,
-									":serial_number"=>$barang->serial_number,
-							);
-		
-		$initialInventory = self::model()->find($criteria);
-		
-		if ($initialInventory == null) {
-			$inventory = new Inventory;
-			$inventory->nama_barang = $barang->nama_barang;
-			$inventory->jumlah_barang = $barang->jumlah_barang;
-			$inventory->invoice_id = $barang->invoice_id;
-			$inventory->lokasi = $barang->lokasi;
-			$inventory->harga = $barang->harga;
-			$inventory->harga_minimum = $barang->harga_minimum;
-			$inventory->harga_minimum_khusus = $barang->harga_minimum_khusus;
-			$inventory->serial_number = $barang->serial_number;
-			$inventory->save();
-		} else {
-			$initialInventory->jumlah_barang = $initialInventory->jumlah_barang + $barang->jumlah_barang;
-			$initialInventory->harga = $barang->harga;
-			$initialInventory->harga_minimum = $barang->harga_minimum;
-			$initialInventory->harga_minimum_khusus = $barang->harga_minimum_khusus;
-			$initialInventory->save();
-		}
-	}
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -180,6 +171,49 @@ class Inventory extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	
+	public static function getInventory($location=0, $like="") {
+		$criteria = new CDbCriteria;
+		if($location != 0) {
+			$criteria->addCondition('lokasi=' . $location);
+		}
+		$criteria->addCondition('nama_barang LIKE "%' . $like . '%"');
+		$criteria->order = "nama_barang ASC";
+		
+		return self::model()->findAll($criteria);
+	}
+	
+	public static function getInventoryByName($name) {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('nama_barang="' . $name . '"');
+		
+		return self::model()->findAll($criteria);
+	}
+	
+	public static function getDataProvider($listCriteria = array(), $likeCriteria = array(), $pageSize = 20, $additionalParam = array()) {
+		$criteria = new CDbCriteria;
+		
+		foreach($listCriteria as $key=>$value) {
+			if($value == null) {
+				$criteria->addCondition($key . ' IS NULL');
+			} else if(is_string($value)) {
+				$criteria->addCondition($key . '="' . $value , '"');
+			} else {
+				$criteria->addCondition($key . '=' . $value);
+			}
+		}
+		
+		foreach($likeCriteria as $key=>$value) {
+			$criteria->addCondition($key . " LIKE " . "%" . $value . "%", 'OR');
+		}
+		
+		return new CActiveDataProvider('Inventory', array_merge(array(
+			'criteria'=>$criteria,
+			'pagination'=> array(
+				'pageSize' => $pageSize
+			)
+		)), $additionalParam);
 	}
 	
 	public function beforeSave() {
@@ -209,6 +243,14 @@ class Inventory extends CActiveRecord
 	public function deleteIfEmpty() {
 		if($this->jumlah_barang == 0) {
 			$this->delete();
+		}
+	}
+	
+	public function getHargaMinimal($role) {
+		if($role == "admin") {
+			return $this->harga_minimum_khusus;
+		} else {
+			return $this->harga_minimum;
 		}
 	}
 }

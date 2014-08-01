@@ -1,9 +1,22 @@
 <?php
-/* @var $this InventoryController */
-/* @var $dataProvider CActiveDataProvider */
-/* @var $listCabang Cabang[]*/
-
-Yii::import('ext.Utilities');
+	/* @var $this InventoryController */
+	/* @var $listStock Stok[] */
+	/* @var $listCabang Cabang[] */
+	/* @var $pageCount int */
+	/* @var $currentPage int */
+	
+	function createLink($newPage) {
+		$return = array('inventory/listStok');
+		if(isset($_GET['lokasi'])) {
+			$return['lokasi'] = $_GET['lokasi'];
+		}
+		if(isset($_GET['filter'])) {
+			$return['filter'] = $_GET['filter'];
+		}
+		$return['page'] = $newPage;
+		return $return;
+	}
+	Yii::import('ext.Utilities');
 ?>
 
 <h1>Stok</h1>
@@ -66,47 +79,28 @@ Yii::import('ext.Utilities');
 		</form>
 		<div class="clearfix"></div>
 	</div>
-	<?php $gridView = $this->widget('zii.widgets.grid.CGridView', array(
-		'dataProvider'=>$dataProvider,
-		'template'=>"{items}",
-		'columns' => array (
-			'id',
-			'nama_barang',
-			'jumlah_barang',
-			array(
-				'name'=>'Lokasi',
-				'value'=>'$data->lokasi0->nama',
-			),
-			array(
-				'name'=>'Harga',
-				'value'=>'Utilities::currency($data->harga)',
-			),
-			array(
-				'name'=>'Harga Minimum',
-				'value'=>'Utilities::currency($data->harga_minimum)',
-			),
-			array(
-				'name'=>'Harga Minimum Khusus',
-				'value'=>'Utilities::currency($data->harga_minimum_khusus)',
-			),
-			array(
-				'name'=>'',
-				'type'=>'raw',
-				'value'=>function($data) {
-					return CHtml::link('<span class="glyphicon glyphicon-search"></span>', array('inventory/view', 'id'=>$data->id)) . " " .
-						   CHtml::link('<span class="glyphicon glyphicon-edit"></span>', array('inventory/updateHarga', 'id'=>$data->id));
-				},
-			),
-		),
-		'itemsCssClass' => 'table table-striped',
-		'pager' => array (
-			'header'=>'',
-			'internalPageCssClass'=>'sds',
-			'htmlOptions' => array (
-				'class'=>'pagination',
-			)
-		)
-	)); ?>
+	<div class="panel-body">
+		<table class="table">
+			<?php foreach ($listStock as $stock): ?>
+				<tr>
+					<td><?php echo $stock->getNama(); ?></td>
+					<td><?php echo $stock->getJumlah(); ?></td>
+					<td><?php echo CHtml::link('<span class="glyphicon glyphicon-search"></span>', array('inventory/detailStock', 'name'=>$stock->getNama())); ?></td>
+				</tr>
+			<?php endforeach;?>
+		</table>
+	</div>
+	
 </div>
 
-<?php $gridView->renderPager(); ?>
+<ul class="pagination">
+	<li><?php echo CHtml::link("&laquo", createLink(0))?></li>
+	<?php for($i=max($currentPage-5, 0) ; $i<$currentPage ; $i++): ?>
+		<li><?php echo CHtml::link($i+1, createLink($i))?></li>
+	<?php endfor;?>
+	<li class="active"><a href=""><?php echo $currentPage+1; ?></a></li>
+	<?php for($i=$currentPage+1 ; $i<min($currentPage+5, $pageCount) ; $i++): ?>
+		<li><?php echo CHtml::link($i+1, createLink($i))?></li>
+	<?php endfor; ?>
+	<li><?php echo CHtml::link("&raquo", createLink($pageCount-1))?></li>
+</ul>

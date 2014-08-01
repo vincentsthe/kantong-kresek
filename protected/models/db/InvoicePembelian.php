@@ -118,6 +118,74 @@ class InvoicePembelian extends CActiveRecord
 		return parent::model($className);
 	}
 	
+	public static function getDataProvider($listCriteria = array(), $likeCriteria = array(), $pageSize = 20, $additionalParam = array()) {
+		$criteria = new CDbCriteria;
+	
+		foreach($listCriteria as $key=>$value) {
+			if($value == null) {
+				$criteria->addCondition($key . ' IS NULL');
+			} else if(is_string($value)) {
+				$criteria->addCondition($key . '="' . $value , '"');
+			} else {
+				$criteria->addCondition($key . '=' . $value);
+			}
+		}
+	
+		foreach($likeCriteria as $key=>$value) {
+			$criteria->addCondition($key . " LIKE " . "'%" . $value . "%'", 'OR');
+		}
+	
+		return new CActiveDataProvider('InvoicePembelian', array_merge(array(
+				'criteria'=>$criteria,
+				'pagination'=> array(
+						'pageSize' => $pageSize
+				),
+				'sort'=>array(
+					'defaultOrder'=>'id DESC',
+					'attributes'=>array(
+						'Waktu Penerbitan'=>array(
+								'asc'=>'waktu_penerbitan',
+								'desc'=>'waktu_penerbitan DESC',
+						),
+						'Jatuh Tempo Pembayaran'=>array(
+								'asc'=>'jatuh_tempo_pembayaran',
+								'desc'=>'jatuh_tempo_pembayaran DESC',
+						),
+						'*',
+					),
+				),
+		), $additionalParam));
+	}
+	
+	public static function getInvoiceBetween($startDate, $endDate, $additionalParam = array()) {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('waktu_penerbitan>=' . $startDate);
+		$criteria->addCondition('waktu_penerbitan<=' . $endDate);
+	
+		$listInvoice = new CActiveDataProvider('InvoicePembelian', array_merge(array(
+			'criteria'=>$criteria,
+			'pagination'=> array(
+					'pageSize'=>20,
+			),
+			'sort'=>array(
+				'defaultOrder'=>'id DESC',
+				'attributes'=>array(
+					'Waktu Penerbitan'=>array(
+							'asc'=>'waktu_penerbitan',
+							'desc'=>'waktu_penerbitan DESC',
+					),
+					'Jatuh Tempo Pembayaran'=>array(
+							'asc'=>'jatuh_tempo_pembayaran',
+							'desc'=>'jatuh_tempo_pembayaran DESC',
+					),
+					'*',
+				),
+			),
+		), $additionalParam));
+		
+		return $listInvoice;
+	}
+	
 	public function getTotalPrice() {
 		$totalPrice = $this->biaya_pengiriman;
 		

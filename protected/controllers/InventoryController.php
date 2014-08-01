@@ -31,7 +31,7 @@ class InventoryController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'view', 'delete', 'create','assign', 'listUnspecified', 'updateHarga', 'pindah', 'choosePindah', 'minimum', 'minimumKhusus'),
+				'actions'=>array('index', 'view', 'delete', 'create','assign', 'listUnspecified', 'updateHarga', 'pindah', 'choosePindah', 'minimum', 'minimumKhusus', 'listStok', 'detailStock'),
 				'roles'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -346,5 +346,42 @@ class InventoryController extends Controller
 			echo Utilities::currency($inventory->harga_minimum_khusus);
 		}
 		Yii::app()->end();
+	}
+	
+	public function actionListStok($page=0) {
+		$this->active = "stock";
+		$location = 0;
+		$filter = "";
+		
+		if(isset($_GET['lokasi'])) {
+			$location = $_GET['lokasi'];
+		}
+		if(isset($_GET['filter'])) {
+			$filter = $_GET['filter'];
+		}
+		
+		$listStok = Stok::getStok($location, $filter, $page);
+		$pageCount = Stok::getPageCount($location, $filter);
+		$this->render('listStock', array(
+			'listCabang'=>Cabang::model()->findAll(),
+			'listStock' => $listStok,
+			'pageCount' => $pageCount,
+			'currentPage' => $page,
+		));
+	}
+	
+	public function actionDetailStock($name) {
+		$this->active = "stock";
+		
+		$laporan = new Laporan($name);
+		
+		$locationInfo = $laporan->getLocationSum();
+		$reportInfo = $laporan->getReport();
+		
+		$this->render('detailStock', array(
+			'name' => $name,
+			'locationInfo' => $locationInfo,
+			'reportInfo' => $reportInfo,
+		));
 	}
 }

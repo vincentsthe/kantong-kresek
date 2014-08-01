@@ -19,7 +19,8 @@ return array(
 		'application.models.form.*',
 		'application.models.db.*',
 		'application.models.non_db.*',
-		'application.models.operator.*'
+		'application.models.operator.*',
+		'application.models.factory.*'
 	),
 
 	'modules'=>array(

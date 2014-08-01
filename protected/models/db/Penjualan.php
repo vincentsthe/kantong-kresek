@@ -112,4 +112,30 @@ class Penjualan extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public static function getPenjualanByName($name, $withInvoice) {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('nama_barang="' . $name . '"');
+	
+		if($withInvoice) {
+			return self::model()->with('invoice')->findAll($criteria);
+		} else {
+			return self::model()->findAll($criteria);
+		}
+	}
+	
+	public static function createRecord($inventory, $quantity, $harga, $invoice_id) {
+		$penjualan = new Penjualan;
+		$penjualan->nama_barang = $inventory->nama_barang;
+		$penjualan->quantity = $quantity;
+		$penjualan->harga = $inventory->harga;
+		$penjualan->harga_minimum = $inventory->harga_minimum;
+		$penjualan->harga_minimum_khusus = $inventory->harga_minimum_khusus;
+		$penjualan->harga_terjual = $harga;
+		$penjualan->invoice_id = $invoice_id;
+		$penjualan->invoice_pembelian_id = $inventory->invoice_id;
+		$penjualan->serial_number = $inventory->serial_number;
+		
+		$penjualan->save();
+	}
 }

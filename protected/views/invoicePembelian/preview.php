@@ -47,7 +47,7 @@ $hargaTotal = 0;
 		<h5 class="font-light">Jatuh Tempo Pembayaran</h5>
 	</div>
 	<div class="col-md-9">
-		<h5><?php echo $invoice->jatuh_tempo_pembayaran?></h5>
+		<h5><?php echo Utilities::timestampToFormattedDate($invoice->jatuh_tempo_pembayaran); ?></h5>
 	</div>
 </div>
 

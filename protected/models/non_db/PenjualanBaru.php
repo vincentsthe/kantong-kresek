@@ -2,11 +2,14 @@
 
 class PenjualanBaru extends CFormModel {
 	
-	public $nama_barang;
 	public $quantity;
 	public $harga;
-	public $harga_terjual;
-	public $inventory_id;
-	public $serial_number;
+	public $inventory;
+	
+	public function __construct($inventory, $harga, $quantity) {
+		$this->inventory = $inventory;
+		$this->harga = $harga;
+		$this->quantity = $quantity;
+	}
 	
 }

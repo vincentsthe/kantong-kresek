@@ -96,6 +96,10 @@ class Cabang extends CActiveRecord
 		return parent::model($className);
 	}
 	
+	public static function getAllCabang() {
+		return self::model()->findAll();
+	}
+	
 	public static function getCabangById($id) {
 		$location = self::model()->findByPk($id);
 		
@@ -104,6 +108,13 @@ class Cabang extends CActiveRecord
 		}
 		
 		return $location;
+	}
+	
+	public static function getCabangByName($name) {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('nama="' . $name . '"');
+		
+		return self::model()->find($criteria);
 	}
 	
 	public static function findAllLocation($empty = false) {
@@ -120,5 +131,9 @@ class Cabang extends CActiveRecord
 		}
 		
 		return $returnArray;
+	}
+	
+	public static function getDataProvider() {
+		return new CActiveDataProvider('Cabang');
 	}
 }

@@ -28,7 +28,7 @@ class UserIdentity extends CUserIdentity
 			$this->_id=$user->id;
 			$this->username=$user->username;
 			$this->setState('roles', User::model()->findByPk($user->id)->role);
-			$this->setState('location', $this->location);
+			$this->setState('location', intval($this->location));
 			$this->errorCode=self::ERROR_NONE;
 		}
 		

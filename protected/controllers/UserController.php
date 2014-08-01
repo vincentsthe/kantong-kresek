@@ -32,7 +32,7 @@ class UserController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','delete'),
+				'actions'=>array('index','view','create','update','delete', 'listLogin', 'createPermission', 'removePermission'),
 				'roles'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -188,6 +188,45 @@ class UserController extends Controller
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
+	}
+	
+	public function actionListLogin() {
+		$this->active = "listLogin";
+		
+		$loginPermission = array();
+		foreach(Cabang::getAllCabang() as $cabang) {
+			$loginPermission[$cabang->nama] = array_map(function($d) {return $d->user;}, CabangUser::getAllUserByCabang($cabang));
+		}
+		
+		$this->render('loginPermission', array(
+			'loginPermission' => $loginPermission,
+		));
+	}
+	
+	public function actionCreatePermission() {
+		$this->active = "listLogin";
+		
+		$form = new AddLoginPermissionForm;
+		
+		if(isset($_POST['AddLoginPermissionForm'])) {
+			$form->attributes = $_POST['AddLoginPermissionForm'];
+			
+			$loginController = new LoginPermission(User::getUserById($form->user));
+			$loginController->addPermision(Cabang::getCabangById($form->cabang));
+			
+			$this->redirect(array('listLogin'));
+		}
+		
+		$this->render('createPermission', array(
+			'model' => $form,
+		));
+	}
+	
+	public function actionRemovePermission($userId, $cabangName) {
+		$loginPermission = new LoginPermission(User::getUserById($userId));
+		$loginPermission->removePermission(Cabang::getCabangByName($cabangName));
+		
+		$this->redirect(array('listLogin'));
 	}
 
 	/**

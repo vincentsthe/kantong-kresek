@@ -1,26 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "pembelian".
+ * This is the model class for table "cabang_user".
  *
- * The followings are the available columns in table 'pembelian':
+ * The followings are the available columns in table 'cabang_user':
  * @property integer $id
- * @property string $nama_barang
- * @property integer $quantity
- * @property integer $harga
- * @property integer $invoice_id
+ * @property integer $user_id
+ * @property integer $cabang_id
  *
  * The followings are the available model relations:
- * @property InvoicePembelian $invoice
+ * @property User $user
+ * @property Cabang $cabang
  */
-class Pembelian extends CActiveRecord
+class CabangUser extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'pembelian';
+		return 'cabang_user';
 	}
 
 	/**
@@ -31,12 +30,11 @@ class Pembelian extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nama_barang, quantity, harga', 'required'),
-			array('quantity, harga', 'numerical', 'integerOnly'=>true),
-			array('nama_barang', 'length', 'max'=>255),
+			array('user_id, cabang_id', 'required'),
+			array('user_id, cabang_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, nama_barang, quantity, harga, invoice_id', 'safe', 'on'=>'search'),
+			array('id, user_id, cabang_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +46,8 @@ class Pembelian extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'invoice' => array(self::BELONGS_TO, 'InvoicePembelian', 'invoice_id'),
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+			'cabang' => array(self::BELONGS_TO, 'Cabang', 'cabang_id'),
 		);
 	}
 
@@ -59,10 +58,8 @@ class Pembelian extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'nama_barang' => 'Nama Barang',
-			'quantity' => 'Quantity',
-			'harga' => 'Harga',
-			'invoice_id' => 'Invoice',
+			'user_id' => 'User',
+			'cabang_id' => 'Cabang',
 		);
 	}
 
@@ -85,10 +82,8 @@ class Pembelian extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('nama_barang',$this->nama_barang,true);
-		$criteria->compare('quantity',$this->quantity);
-		$criteria->compare('harga',$this->harga);
-		$criteria->compare('invoice_id',$this->invoice_id);
+		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('cabang_id',$this->cabang_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -99,21 +94,41 @@ class Pembelian extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Pembelian the static model class
+	 * @return CabangUser the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 	
-	public static function getPembelianByName($name, $withInvoice=false) {
+	public static function getAllUserByCabang($cabang) {
 		$criteria = new CDbCriteria;
-		$criteria->addCondition('nama_barang="' . $name . '"');
+		$criteria->addCondition('cabang_id=' . $cabang->id);
+		
+		return self::model()->findAll($criteria);
+	}
 	
-		if($withInvoice) {
-			return self::model()->with('invoice')->findAll($criteria);
-		} else {
-			return self::model()->findAll($criteria);
-		}
+	public static function recordExist($user, $cabang) {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('user_id=' . $user->id);
+		$criteria->addCondition('cabang_id=' . $cabang->id);
+		
+		return (self::model()->find($criteria) != null);
+	}
+	
+	public static function addRecord($user, $cabang) {
+		$record = new CabangUser;
+		$record->user_id = $user->id;
+		$record->cabang_id = $cabang->id;
+		
+		$record->save();
+	}
+	
+	public static function removeRecord($user, $cabang) {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition('user_id=' . $user->id);
+		$criteria->addCondition('cabang_id=' . $cabang->id);
+		
+		self::model()->find($criteria)->delete();
 	}
 }

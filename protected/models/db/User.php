@@ -104,6 +104,10 @@ class User extends CActiveRecord
 		return parent::model($className);
 	}
 	
+	public static function getAllUser() {
+		return self::model()->findAll();
+	}
+	
 	public static function getUserById($id) {
 		$user = self::model()->findByPk($id);
 		
@@ -125,6 +129,18 @@ class User extends CActiveRecord
 		} else {
 			return $user;
 		}
+	}
+	
+	public static function findAllUser() {
+		$allUser = self::getAllUser();
+		
+		$returnArray = array();
+		
+		foreach($allUser as $user) {
+			$returnArray[$user->id] = $user->username;
+		}
+		
+		return $returnArray;
 	}
 	
 	public function validatePassword($password) {

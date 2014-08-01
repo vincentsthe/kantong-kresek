@@ -56,8 +56,14 @@ class LoginForm extends CFormModel
 		}
 		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
 		{
-			Yii::app()->user->login($this->_identity);
-			return true;
+			$loginPermission = new LoginPermission(User::getUserByUsername($this->username));
+			if($loginPermission->havePermission(Cabang::getCabangById($this->location))) {
+				Yii::app()->user->login($this->_identity);
+				return true;
+			} else {
+				Yii::app()->user->setFlash("error", "Anda tidak memiliki izin login dari cabang ini.");
+				return false;
+			}
 		}
 		else
 			return false;

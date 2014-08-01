@@ -31,7 +31,7 @@ class InvoicePembelianController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'view', 'delete', 'create','update', 'addItem', 'preview', 'doCreate', 'print', 'removeItem', 'report'),
+				'actions'=>array('index', 'view', 'delete', 'create','update', 'addItem', 'preview', 'doCreate', 'removeItem', 'report', 'createNew'),
 				'roles'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -51,6 +51,14 @@ class InvoicePembelianController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+	
+	public function actionCreateNew() {
+		$session = new CHttpSession;
+		$session->open();
+		$session['invoicePembelianPublisher'] = new InvoicePembelianPublisher();
+		
+		$this->redirect(array('create'));
+	}
 
 	/**
 	 * Creates a new model.
@@ -59,6 +67,12 @@ class InvoicePembelianController extends Controller
 	public function actionCreate()
 	{
 		$this->active = "create";
+		$session = new CHttpSession;
+		$session->open();
+		
+		if(!isset($session['invoicePembelianPublisher'])) {
+			$this->redirect(array('createNew'));
+		}
 		
 		$model=new InvoicePembelian;
 
@@ -68,17 +82,15 @@ class InvoicePembelianController extends Controller
 		if(isset($_POST['InvoicePembelian']))
 		{
 			$model->attributes=$_POST['InvoicePembelian'];
+			$model->jatuh_tempo_pembayaran = Utilities::formattedDateToTimestamp($model->jatuh_tempo_pembayaran);
 
 			if($model->biaya_pengiriman == null) {
 				$model->biaya_pengiriman = 0;
 			}
 			
 			if($model->validate()) {
-				$session = new CHttpSession;
-				$session->open();
-				$session['invoicePembelian'] = $model;
-				$session['listPembelian'] = array();
-				return self::actionPreview();
+				$session['invoicePembelianPublisher']->setInvoice($model);
+				$this->redirect(array('preview'));
 			} else {
 				Yii::app()->user->setFlash('error', 'Input tidak valid.');
 			}
@@ -92,23 +104,19 @@ class InvoicePembelianController extends Controller
 	
 	public function actionPreview() {
 		$this->active = "create";
-		
 		$session = new CHttpSession;
 		$session->open();
 		
-		if(!isset($session['invoicePembelian']) || !isset($session['listPembelian'])) {
-			$this->redirect(array('create'));
+		if(!isset($session['invoicePembelianPublisher']) || !($session['invoicePembelianPublisher']->hasInfo())) {
+			$this->redirect(array('createNew'));
 		}
-		
-		$listPembelian = $session['listPembelian'];
 		
 		if(isset($_POST['Pembelian'])) {
 			$pembelian = new Pembelian;
 			$pembelian->attributes = $_POST['Pembelian'];
 			
 			if($pembelian->validate()) {
-				$listPembelian[] = $pembelian;
-				$session['listPembelian'] = $listPembelian;
+				$session['invoicePembelianPublisher']->addBarang($pembelian);
 				Yii::app()->user->setFlash('success', 'Barang berhasil ditambahkan.');
 			} else {
 				Yii::app()->user->setFlash('error', 'Masukan tidak valid, ulangi masukan!');
@@ -116,19 +124,18 @@ class InvoicePembelianController extends Controller
 		}
 		
 		$this->render('preview', array(
-			'invoice'=>$session['invoicePembelian'],
-			'listItem'=>$listPembelian,
+			'invoice'=>$session['invoicePembelianPublisher']->getInvoice(),
+			'listItem'=>$session['invoicePembelianPublisher']->getBarang(),
 		));
 	}
 	
 	public function actionAddItem() {
 		$this->active = "create";
-		
 		$session = new CHttpSession;
 		$session->open();
 		
-		if(!isset($session['invoicePembelian']) || !isset($session['listPembelian'])) {
-			$this->redirect(array('create'));
+		if(!isset($session['invoicePembelianPublisher']) || !($session['invoicePembelianPublisher']->hasInfo())) {
+			$this->redirect(array('createNew'));
 		}
 		
 		$model = new Pembelian;
@@ -141,59 +148,34 @@ class InvoicePembelianController extends Controller
 	
 	public function actionRemoveItem($index) {
 		$this->active = "create";
-		
 		$session = new CHttpSession;
 		$session->open();
 		
-		if(!isset($session['invoicePembelian']) || !isset($session['listPembelian'])) {
-			$this->redirect(array('create'));
+		if(!isset($session['invoicePembelianPublisher']) || !($session['invoicePembelianPublisher']->hasInfo())) {
+			$this->redirect(array('createNew'));
 		}
 		
-		$listPembelian = $session['listPembelian'];
-		unset($listPembelian[$index]);
-		$listPembelian = array_values($listPembelian);
+		$session['invoicePembelianPublisher']->removeBarang($index);
 		
-		$session['listPembelian'] = $listPembelian;
 		Yii::app()->user->setFlash('success', 'Barang berhasil dihapus dari daftar');
-		
 		$this->redirect(array('preview'));
 	}
 	
 	public function actionDoCreate() {
 		$this->active = "create";
-		
 		$session = new CHttpSession;
 		$session->open();
 		
-		if(!isset($session['invoicePembelian']) || !isset($session['listPembelian'])) {
-			$this->redirect(array('create'));
+		if(!isset($session['invoicePembelianPublisher']) || !($session['invoicePembelianPublisher']->hasInfo())) {
+			$this->redirect(array('createNew'));
 		}
+		$invoiceId = $session['invoicePembelianPublisher']->getInvoice()->id;
 		
-		$invoice = $session['invoicePembelian'];
-		$invoice->jatuh_tempo_pembayaran = Utilities::formattedDateToTimestamp($invoice->jatuh_tempo_pembayaran);
-		$invoice->save();
+		$session['invoicePembelianPublisher']->publish();
 		
-		$listItem = $session['listPembelian'];
-		foreach($listItem as $item) {
-			$pembelian = new Pembelian;
-			$pembelian = $item;
-			$pembelian->invoice_id = $invoice->id;
-			$pembelian->save();
-			
-			//create inventory
-			$inventory = new Inventory;
-			$inventory->nama_barang = $pembelian->nama_barang;
-			$inventory->jumlah_barang = $pembelian->quantity;
-			$inventory->invoice_id = $pembelian->invoice_id;
-			$inventory->save();
-		}
-		
-		//remove session
-		$session->remove('invoicePembelian');
-		$session->remove('listPembelian');
-		
+		$session->remove('invoicePembelianPublisher');
 		Yii::app()->user->setFlash('success', 'Invoice berhasil diterbitkan.');
-		$this->redirect(array('view', 'id' => $invoice->id));
+		$this->redirect(array('view', 'id' => $invoiceId));
 	}
 
 	/**
@@ -247,32 +229,11 @@ class InvoicePembelianController extends Controller
 	{
 		$this->active = "index";
 		
-		$criteria = new CDbCriteria;
-		
+		$likeCriteria = array();
 		if(isset($_GET['filter'])) {
-			$criteria->condition = "nama_supplier LIKE :filter";
-			$criteria->params = array(':filter' => "%" . $_GET['filter'] . "%");
+			$likeCriteria['nama_supplier'] = $_GET['filter'];
 		}
-		
-		$dataProvider=new CActiveDataProvider('InvoicePembelian', array(
-			'criteria' => $criteria,
-			'pagination' => array (
-				'pageSize' => 20,
-			),
-			'sort'=>array(
-				'attributes'=>array(
-					'Waktu Penerbitan'=>array(
-						'asc'=>'waktu_penerbitan',
-						'desc'=>'waktu_penerbitan DESC',
-					),
-					'Jatuh Tempo Pembayaran'=>array(
-						'asc'=>'jatuh_tempo_pembayaran',
-						'desc'=>'jatuh_tempo_pembayaran DESC',
-					),
-					'*',
-				),
-			),
-		));
+		$dataProvider = InvoicePembelian::getDataProvider(array(), $likeCriteria);
 		
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
@@ -282,34 +243,12 @@ class InvoicePembelianController extends Controller
 	public function actionReport() {
 		$this->active = "report";
 	
-		$reportForm = new ReportForm;
-		$reportForm->cabang = 0;
-		$reportForm->startTime = Utilities::timestampToFormattedDate(time());
-		$reportForm->endTime = Utilities::timestampToFormattedDate(time());
+		$reportForm = new ReportForm();
 	
 		if(isset($_POST['ReportForm'])) {
 			$reportForm->attributes = $_POST['ReportForm'];
-				
-			$criteria = new CDbCriteria;
 			
-			$criteria->addCondition('(waktu_penerbitan >= ' . Utilities::formattedDateToTimestamp($reportForm->startTime) . ')');
-			$criteria->addCondition('(waktu_penerbitan <= ' . Utilities::formattedDateToTimestamp($reportForm->endTime) . ')');
-				
-			$listInvoice = new CActiveDataProvider('InvoicePembelian', array(
-					'criteria'=>$criteria,
-					'pagination'=> array(
-							'pageSize'=>20,
-					),
-					'sort'=>array(
-							'attributes'=>array(
-									'Waktu Transaksi'=>array(
-											'asc'=>'waktu_penerbitan',
-											'desc'=>'waktu_penerbitan DESC',
-									),
-									'*',
-							),
-					),
-			));
+			$listInvoice = InvoicePembelian::getInvoiceBetween(Utilities::formattedDateToTimestamp($reportForm->startTime), Utilities::formattedDateToTimestamp($reportForm->endTime));
 				
 			$transaction = $listInvoice->itemCount;
 			$totalTransaction = 0;
@@ -328,17 +267,6 @@ class InvoicePembelianController extends Controller
 					'reportForm' => $reportForm,
 			));
 		}
-	}
-	
-	public function actionPrint($id) {
-		$this->active = "view";
-		$this->layout = '//layouts/plain';
-		
-		$invoice = $this->loadModel($id);
-		
-		$this->render('print', array(
-				'model' => $invoice,
-		));
 	}
 
 	/**
